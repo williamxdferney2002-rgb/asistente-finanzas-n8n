@@ -1,0 +1,142 @@
+{
+  "descripcion": "Inventario generado de valores pendientes en exports y tablero; rutas relativas a esta carpeta pública.",
+  "marcadores": {
+    "123456789": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-errores-v1.1.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-errores-v1.json",
+      "flujos/finanzas/finanzas-programado-v7.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_ASSISTANT_CALENDAR_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_ASSISTANT_ERROR_WORKFLOW_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_ASSISTANT_SHEET_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-errores-v1.1.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_ASSISTANT_WORKFLOW_ID": [
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_BACKUPS_FOLDER_ID": [
+      "flujos/finanzas/finanzas-programado-v7.json"
+    ],
+    "CONFIGURE_DOCUMENTS_FOLDER_ID": [
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_EXTRACTS_FOLDER_ID": [
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID": [
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-programado-v7.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_FINANCE_SHEET_ID": [
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-errores-v1.json",
+      "flujos/finanzas/finanzas-programado-v7.json"
+    ],
+    "CONFIGURE_FINANCE_WORKFLOW_ID": [
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_OWNER_MASKED_NAME": [
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_OWNER_MATCH": [
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_OWNER_NAME": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_OWNER_PAYMENT_ALIAS": [
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_ROUTER_WORKFLOW_ID": [
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_WHATSAPP_ALLOWED_NUMBER": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json"
+    ],
+    "CONFIGURE_WHATSAPP_PHONE_NUMBER_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_googleCalendarOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_googleDriveOAuth2Api": [
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-programado-v7.json"
+    ],
+    "CONFIGURE_googlePalmApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_googleSheetsOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-errores-v1.1.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-errores-v1.json",
+      "flujos/finanzas/finanzas-programado-v7.json"
+    ],
+    "CONFIGURE_googleTasksOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_httpHeaderAuth": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_telegramApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-errores-v1.1.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/finanzas/finanzas-errores-v1.json",
+      "flujos/finanzas/finanzas-programado-v7.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_whatsAppApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/finanzas/finanzas-bot-v25.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_whatsAppTriggerApi": [
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "TU_BOT_TELEGRAM_bot": [
+      "apps-script/tablero/Codigo.gs",
+      "apps-script/tablero/Index.html"
+    ]
+  }
+}

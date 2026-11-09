@@ -1,0 +1,82 @@
+{
+  "fecha": "2026-11-08",
+  "zona": "America/Bogota",
+  "proposito": "Snapshot público anonimizado de fuentes existentes; sin despliegue ni corrección de pendientes.",
+  "componentes": [
+    {
+      "archivo": "flujos/asistente/asistente-entrada-v6.4.json",
+      "nombre": "Asistente - Entrada v6.4",
+      "nodos": 164,
+      "nodos_code": 61,
+      "active": false
+    },
+    {
+      "archivo": "flujos/asistente/asistente-errores-v1.1.json",
+      "nombre": "Asistente - Errores v1.1",
+      "nodos": 6,
+      "nodos_code": 1,
+      "active": false
+    },
+    {
+      "archivo": "flujos/asistente/asistente-reloj-v6.1.json",
+      "nombre": "Asistente - Reloj v6.1",
+      "nodos": 61,
+      "nodos_code": 24,
+      "active": false
+    },
+    {
+      "archivo": "flujos/finanzas/finanzas-bot-v25.json",
+      "nombre": "Finanzas - Bot v25",
+      "nodos": 132,
+      "nodos_code": 42,
+      "active": false
+    },
+    {
+      "archivo": "flujos/finanzas/finanzas-errores-v1.json",
+      "nombre": "Finanzas - Errores",
+      "nodos": 5,
+      "nodos_code": 0,
+      "active": false
+    },
+    {
+      "archivo": "flujos/finanzas/finanzas-programado-v7.json",
+      "nombre": "Finanzas - Programado v7",
+      "nodos": 34,
+      "nodos_code": 10,
+      "active": false
+    },
+    {
+      "archivo": "flujos/router/router-v2.json",
+      "nombre": "Router - Bot v2",
+      "nodos": 30,
+      "nodos_code": 3,
+      "active": false
+    },
+    {
+      "archivo": "flujos/whatsapp/whatsapp-entrada-v2.json",
+      "nombre": "WhatsApp - Entrada v2",
+      "nodos": 9,
+      "nodos_code": 2,
+      "active": false
+    }
+  ],
+  "tablero": {
+    "ruta": "apps-script/tablero/",
+    "version_documentada": "v8 local",
+    "despliegue_verificado": false
+  },
+  "datos": "Esquemas vacíos y ejemplos inventados; sin historial ni datos privados.",
+  "modificaciones_empaquetado": [
+    "Organización y documentación pública",
+    "Referencias privadas sustituidas por marcadores",
+    "Metadatos e historial de ejecuciones excluidos",
+    "GUIDs internos regenerados conservando referencias",
+    "Selectores de pestañas privadas convertidos a nombres",
+    "Todos los exports desactivados"
+  ],
+  "requisitos_pendientes": [
+    "Credenciales y recursos propios",
+    "Verificación de versión n8n, proveedores y modelos",
+    "Pruebas de integración en una instalación propia"
+  ]
+}

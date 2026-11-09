@@ -1,0 +1,226 @@
+{
+  "snapshot": "2026-11-08",
+  "files": [
+    {
+      "file": "flujos/asistente/asistente-entrada-v6.4.json",
+      "nodes": 164,
+      "name": "Asistente - Entrada v6.4",
+      "credential_types": [
+        "googleCalendarOAuth2Api",
+        "googlePalmApi",
+        "googleSheetsOAuth2Api",
+        "googleTasksOAuth2Api",
+        "httpHeaderAuth",
+        "telegramApi",
+        "whatsAppApi"
+      ]
+    },
+    {
+      "file": "flujos/asistente/asistente-reloj-v6.1.json",
+      "nodes": 61,
+      "name": "Asistente - Reloj v6.1",
+      "credential_types": [
+        "googleCalendarOAuth2Api",
+        "googleSheetsOAuth2Api",
+        "googleTasksOAuth2Api",
+        "telegramApi"
+      ]
+    },
+    {
+      "file": "flujos/asistente/asistente-errores-v1.1.json",
+      "nodes": 6,
+      "name": "Asistente - Errores v1.1",
+      "credential_types": [
+        "googleSheetsOAuth2Api",
+        "telegramApi"
+      ]
+    },
+    {
+      "file": "flujos/router/router-v2.json",
+      "nodes": 30,
+      "name": "Router - Bot v2",
+      "credential_types": [
+        "googlePalmApi",
+        "httpHeaderAuth",
+        "telegramApi",
+        "whatsAppApi"
+      ]
+    },
+    {
+      "file": "flujos/whatsapp/whatsapp-entrada-v2.json",
+      "nodes": 9,
+      "name": "WhatsApp - Entrada v2",
+      "credential_types": [
+        "whatsAppApi",
+        "whatsAppTriggerApi"
+      ]
+    }
+  ],
+  "demo_telegram_chat_id": "123456789",
+  "placeholders": {
+    "CONFIGURE_ASSISTANT_CALENDAR_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_ASSISTANT_ERROR_WORKFLOW_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_ASSISTANT_SHEET_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/asistente/asistente-errores-v1.1.json"
+    ],
+    "CONFIGURE_OWNER_NAME": [
+      "flujos/asistente/asistente-entrada-v6.4.json"
+    ],
+    "CONFIGURE_WHATSAPP_ALLOWED_NUMBER": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json"
+    ],
+    "CONFIGURE_WHATSAPP_PHONE_NUMBER_ID": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_googleCalendarOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_googlePalmApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_googleSheetsOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/asistente/asistente-errores-v1.1.json"
+    ],
+    "CONFIGURE_googleTasksOAuth2Api": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json"
+    ],
+    "CONFIGURE_httpHeaderAuth": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_telegramApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/asistente/asistente-reloj-v6.1.json",
+      "flujos/asistente/asistente-errores-v1.1.json",
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_whatsAppApi": [
+      "flujos/asistente/asistente-entrada-v6.4.json",
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_ASSISTANT_WORKFLOW_ID": [
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID": [
+      "flujos/router/router-v2.json",
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_FINANCE_WORKFLOW_ID": [
+      "flujos/router/router-v2.json"
+    ],
+    "CONFIGURE_ROUTER_WORKFLOW_ID": [
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ],
+    "CONFIGURE_whatsAppTriggerApi": [
+      "flujos/whatsapp/whatsapp-entrada-v2.json"
+    ]
+  },
+  "sheets": {
+    "Operaciones": [
+      "ID",
+      "Clave origen",
+      "Creado",
+      "Actualizado",
+      "Tipo entrada",
+      "Acción",
+      "Estado",
+      "Execution ID",
+      "Mensaje",
+      "Respuesta",
+      "Error"
+    ],
+    "Por confirmar": [
+      "ID",
+      "Creado",
+      "Acción",
+      "Datos",
+      "Pregunta",
+      "Estado",
+      "Respuesta",
+      "Fecha respuesta",
+      "Expira"
+    ],
+    "Pendientes": [
+      "ID",
+      "Pendiente",
+      "Estado",
+      "Fecha límite",
+      "ID Task",
+      "ID Calendar",
+      "Creado",
+      "Completado",
+      "Sync",
+      "Modificado"
+    ],
+    "Recordatorios": [
+      "ID",
+      "Mensaje",
+      "Fecha evento",
+      "Repetir",
+      "Antelación (min)",
+      "Próximo aviso",
+      "Estado",
+      "ID pendiente",
+      "ID Calendar",
+      "Creado",
+      "Sync",
+      "ID mensaje aviso",
+      "Modificado"
+    ],
+    "Claves": [
+      "ID",
+      "Servicio",
+      "Usuario o correo",
+      "Contraseña",
+      "Notas",
+      "Actualizado"
+    ],
+    "Habitos": [
+      "ID",
+      "Hábito",
+      "Emoji",
+      "Días",
+      "Alias",
+      "Estado",
+      "Creado",
+      "Modificado",
+      "Hasta"
+    ],
+    "Registro habitos": [
+      "ID",
+      "ID hábito",
+      "Hábito",
+      "Fecha",
+      "Estado",
+      "Origen",
+      "Registrado",
+      "Modificado",
+      "ID Task",
+      "ID lista"
+    ]
+  }
+}

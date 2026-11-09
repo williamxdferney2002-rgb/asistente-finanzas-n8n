@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "description": "Crear estas Data Tables vacías en el proyecto de n8n de la nueva instalación. No son pestañas de Google Sheets.",
+  "tables": [
+    {
+      "name": "wa_candados",
+      "placeholder": "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID",
+      "columns": [
+        {
+          "name": "clave",
+          "type": "string"
+        },
+        {
+          "name": "ejecucion",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "wa_contexto",
+      "placeholder": "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID",
+      "columns": [
+        {
+          "name": "wamid",
+          "type": "string"
+        },
+        {
+          "name": "datos",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "system_columns_not_to_create": [
+    "id",
+    "createdAt",
+    "updatedAt"
+  ],
+  "rows": []
+}

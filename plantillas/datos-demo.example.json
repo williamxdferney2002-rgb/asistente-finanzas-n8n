@@ -1,0 +1,77 @@
+{
+  "descripcion": "Todos los valores son inventados para una hoja de prueba. No representa las finanzas de ninguna persona. Copiar por nombre de encabezado, no como una matriz por posición.",
+  "fecha_referencia": "2026-01-01",
+  "hojas": {
+    "Cuentas": [
+      {
+        "ID": "CTA-DEMO-01",
+        "Nombre": "Cuenta de ejemplo",
+        "Entidad": "Banco de ejemplo",
+        "Tipo": "Ahorros",
+        "Moneda": "COP",
+        "Saldo inicial": 100000,
+        "Fecha saldo inicial": "2026-01-01",
+        "Cobra 4x1000": "No",
+        "Paga rendimientos": "No",
+        "Activa": "Sí"
+      }
+    ],
+    "Personas": [
+      {
+        "Nombre": "Persona de ejemplo",
+        "Alias": "demo",
+        "Relación": "Ejemplo ficticio"
+      }
+    ],
+    "Categorías": [
+      {
+        "Nombre": "Alimentación",
+        "Tipo": "Gasto",
+        "Activa": "Sí"
+      },
+      {
+        "Nombre": "Trabajo",
+        "Tipo": "Ingreso",
+        "Activa": "Sí"
+      },
+      {
+        "Nombre": "Intereses préstamos",
+        "Tipo": "Ingreso",
+        "Activa": "Sí"
+      },
+      {
+        "Nombre": "Deudas perdidas",
+        "Tipo": "Gasto",
+        "Activa": "Sí"
+      }
+    ],
+    "Parámetros": [
+      {
+        "Clave": "usuario_bot",
+        "Valor": "TU_BOT_TELEGRAM_bot",
+        "Descripción": "Sustituir por el usuario de tu bot sin @."
+      },
+      {
+        "Clave": "usdcop_manual",
+        "Valor": 4000,
+        "Descripción": "Valor ficticio para pruebas; no es una cotización actual."
+      }
+    ],
+    "Movimientos": [
+      {
+        "ID": "MOV-DEMO-01",
+        "Operación": "OP-DEMO-01",
+        "Clave origen": "demo_01",
+        "Fecha": "2026-01-02",
+        "Tipo": "Gasto",
+        "Monto": 12000,
+        "Moneda": "COP",
+        "Cuenta": "CTA-DEMO-01",
+        "Categoría": "Alimentación",
+        "Detalle": "Ejemplo sintético",
+        "Origen": "Ejemplo",
+        "Estado revisión": "OK"
+      }
+    ]
+  }
+}

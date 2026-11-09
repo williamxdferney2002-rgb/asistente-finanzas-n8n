@@ -1,0 +1,333 @@
+{
+  "name": "WhatsApp - Entrada v2",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "413b6071-33a0-5cd3-b92a-44fa40bfa633",
+      "name": "WhatsApp Trigger",
+      "webhookId": "8ee5cb1a-abd2-581f-a9ef-093dbd85bc8b",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "CONFIGURE_whatsAppTriggerApi",
+          "name": "whatsAppTriggerApi (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51abce12-4568-5527-8f06-72e8a1237fb7",
+              "name": "waPhoneNumberId",
+              "value": "CONFIGURE_WHATSAPP_PHONE_NUMBER_ID",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        300,
+        0
+      ],
+      "id": "dd630858-76e6-5fd9-90ab-599505ebf6de",
+      "name": "Config WA"
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = [];\nfor (const [idx, item] of $input.all().entries()) {\n  const root = item.json, raw = root.body || root;\n  const values = raw.entry ? raw.entry.flatMap(e => (e.changes || []).filter(c => c.field === 'messages').map(c => c.value)) : [raw];\n  for (const v of values) {\n    if (v.metadata?.phone_number_id && String(v.metadata.phone_number_id) !== String(root.waPhoneNumberId)) continue;\n    for (const m of (v.messages || [])) {\n      if (m.from !== 'CONFIGURE_WHATSAPP_ALLOWED_NUMBER' || !m.id || typeof m.type !== 'string') continue;\n      const wa = { from:m.from, wamid:m.id, tipo:m.type, phone_number_id:root.waPhoneNumberId, context_id:m.context?.id || null };\n      const msg = { message_id:m.id, date:Number(m.timestamp) || 0, chat:{id:123456789,type:'private'}, from:{id:123456789} };\n      const u = { update_id:'wa_'+m.id, canal:'whatsapp', wa, message:msg };\n      if (m.context?.id) msg.reply_to_message = { message_id:m.context?.id, text:m.context?.text?.body || m.context?.text || '' };\n      let soportado = true;\n      if (m.type === 'text' && typeof m.text?.body === 'string') msg.text = m.text.body;\n      else if (['audio','image','document'].includes(m.type) && m[m.type]?.id) {\n        const media = m[m.type], mime = media.mime_type || (m.type === 'image' ? 'image/jpeg' : 'audio/ogg');\n        wa.media_id = media.id; wa.mime_type = mime;\n        const f = {file_id:media.id, file_unique_id:media.sha256 || media.id, mime_type:mime};\n        if (m.type === 'audio' && mime.startsWith('audio/')) msg.voice = f;\n        else if (m.type === 'image' && mime.startsWith('image/')) msg.photo = [f];\n        else if (m.type === 'document' && /^(image\\/|application\\/pdf$)/.test(mime)) msg.document = {...f,file_name:media.filename || ''};\n        else soportado = false;\n        if (m.type !== 'audio' && media.caption) msg.caption = media.caption;\n      } else if (m.type === 'interactive') {\n        const data = m.interactive?.button_reply?.id || m.interactive?.list_reply?.id;\n        if (!/^(?:pc:[^:]+:[^:]+|a:pc:[^:]+:[^:]+|r:[fa]:[a-zA-Z0-9_-]{1,55})$(?![\\s\\S])/.test(data || '') || (!/^r:/.test(data) && !m.context?.id)) continue;\n        delete u.message;\n        u.callback_query = {id:m.id,from:{id:123456789},data,message:{...msg,message_id:m.context?.id,text:m.context?.text?.body || m.context?.text || ''}};\n      } else soportado = false;\n      out.push({json:{update:u,soportado,wa_context_wamid: u.callback_query?.data.startsWith('r:') ? null : (wa.context_id || null)},pairedItem:{item:idx}});\n    }\n  }\n}\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        0
+      ],
+      "id": "6fd045a8-2bcd-565b-8efd-e9b9f9d51d52",
+      "name": "Adaptar WhatsApp"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b00df097-5135-5c36-bb6a-f0b8f3b37e23",
+              "leftValue": "={{ $json.soportado === true }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        900,
+        0
+      ],
+      "id": "dc6d72b0-283b-57c6-9922-3dba31dc79e7",
+      "name": "¿Soportado?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8eec804a-8778-5825-9086-1efa0676e3c4",
+              "leftValue": "={{ !!$json.wa_context_wamid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "cea419f3-dfb9-5023-8b5c-f1ca0116dd22",
+      "name": "¿Tiene contexto?"
+    },
+    {
+      "parameters": {
+        "resource": "row",
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "wamid",
+              "condition": "eq",
+              "keyValue": "={{ $json.wa_context_wamid }}"
+            }
+          ]
+        },
+        "returnAll": false,
+        "limit": 1,
+        "orderBy": true,
+        "orderByColumn": "id",
+        "orderByDirection": "ASC"
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        240
+      ],
+      "id": "9588ef3c-1f15-5268-a19c-794059d815f6",
+      "name": "Leer contexto WA",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// A Get omits missing rows in mixed batches. Recover every original input, including\n// text replies without a saved row; missing callback contexts still stop silently.\nconst inputs = $input.all();\nconst direct = inputs.every(i => i.json.update);\nconst originals = direct ? inputs : $('¿Tiene contexto?').all(0);\nif (!direct) for (const item of inputs) {\n  if (item.json.error) throw new Error('No se pudo leer el contexto WhatsApp');\n  if (item.json.datos !== undefined && !originals.some(i => i.json.wa_context_wamid === item.json.wamid))\n    throw new Error('Contexto WhatsApp de otro mensaje');\n}\nconst out = [];\nfor (const [index, item] of originals.entries()) {\n  const a = item.json;\n  const rowIndex = direct ? index : inputs.findIndex(i => i.json.wamid === a.wa_context_wamid);\n  const r = direct ? {} : (inputs[rowIndex]?.json || {});\n  const restore = () => {\nconst u = JSON.parse(JSON.stringify(a.update));\n// El Router valida estos IDs con su static data, sin tabla de contexto.\nif (/^r:[fa]:[a-zA-Z0-9_-]{1,55}$/.test(u.callback_query?.data || '')) return {json:u};\nif (r.error) throw new Error('No se pudo leer el contexto WhatsApp');\nlet ctx = null;\nif (a.wa_context_wamid && r.datos !== undefined) {\n  if (r.wamid !== a.wa_context_wamid) throw new Error('Contexto WhatsApp de otro mensaje');\n  try { ctx = JSON.parse(r.datos);\n    if (!ctx || typeof ctx !== 'object' || Array.isArray(ctx)) throw new Error(); } catch (e) { throw new Error('Contexto WhatsApp inválido'); }\n  if (ctx.from !== u.wa.from || String(ctx.phone_number_id) !== String(u.wa.phone_number_id)) throw new Error('Contexto WhatsApp de otro destinatario');\n}\nif (u.callback_query) {\n  // A webhook context carries only a wamid, not the question. Validate against the saved message.\n  const data = String(u.callback_query.data || '').replace(/^a:/, '');\n  if (!/^pc:[^:]+:[^:]+$/.test(data)) return null;\n  const [, id, valor] = data.split(':');\n  if (!ctx || String(ctx.confirmacion) !== id || !(ctx.botones || []).some(b => String(b.valor) === valor)) return null;\n  u.callback_query.message.text = ctx.texto || '';\n} else if (u.message.reply_to_message && ctx) {\n  u.message.reply_to_message.text = ctx.texto || '';\n  u.wa.reply_confirmacion = ctx.confirmacion || null;\n}\nreturn { json:u };\n  };\n  const restored = restore();\n  if (restored) out.push({ ...restored, pairedItem: { item: Math.max(0, rowIndex) } });\n}\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        300,
+        240
+      ],
+      "id": "26a69a30-c741-5a31-a82c-7f522accabc2",
+      "name": "Restaurar contexto"
+    },
+    {
+      "id": "2bcb7337-a27f-5f09-a6d6-b8c344bbebf2",
+      "name": "Llamar Router",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1300,
+        400
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "value": "CONFIGURE_ROUTER_WORKFLOW_ID",
+          "mode": "id"
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://graph.facebook.com/v25.0/' + $('Config WA').first().json.waPhoneNumberId + '/messages' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "whatsAppApi",
+        "options": {
+          "timeout": 20000
+        },
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {messaging_product:'whatsapp',to:$json.update.wa.from,type:'text',text:{body:'Solo texto, audio, foto o PDF'} } }}"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        900,
+        240
+      ],
+      "id": "8be34a90-7183-506e-9fe7-869a74204847",
+      "name": "Tipo no soportado",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "CONFIGURE_whatsAppApi",
+          "name": "whatsAppApi (configurar)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config WA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config WA": {
+      "main": [
+        [
+          {
+            "node": "Adaptar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adaptar WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "¿Soportado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Soportado?": {
+      "main": [
+        [
+          {
+            "node": "¿Tiene contexto?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tipo no soportado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Tiene contexto?": {
+      "main": [
+        [
+          {
+            "node": "Leer contexto WA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Restaurar contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer contexto WA": {
+      "main": [
+        [
+          {
+            "node": "Restaurar contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar contexto": {
+      "main": [
+        [
+          {
+            "node": "Llamar Router",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "errorWorkflow": "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "pinData": {},
+  "tags": []
+}

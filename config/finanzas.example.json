@@ -1,0 +1,565 @@
+{
+  "descripcion": "Inventario de marcadores públicos. No se carga automáticamente: preparar copias locales de los JSON o seleccionar credenciales en n8n.",
+  "valores": {
+    "CONFIGURE_FINANCE_SHEET_ID": {
+      "valor": "",
+      "descripcion": "ID de tu hoja de finanzas con todas las pestañas y encabezados del esquema."
+    },
+    "123456789": {
+      "valor": "",
+      "descripcion": "Chat de Telegram ficticio; sustituir por el ID autorizado en todos los flujos."
+    },
+    "CONFIGURE_DOCUMENTS_FOLDER_ID": {
+      "valor": "",
+      "descripcion": "Carpeta Drive para comprobantes."
+    },
+    "CONFIGURE_BACKUPS_FOLDER_ID": {
+      "valor": "",
+      "descripcion": "Carpeta Drive exclusiva para respaldos de esta instalación."
+    },
+    "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID": {
+      "valor": "",
+      "descripcion": "ID local del flujo Finanzas - Errores después de importarlo."
+    },
+    "CONFIGURE_WHATSAPP_ALLOWED_NUMBER": {
+      "valor": "",
+      "descripcion": "Número autorizado en formato internacional de WhatsApp, sin signo +."
+    },
+    "CONFIGURE_WHATSAPP_PHONE_NUMBER_ID": {
+      "valor": "",
+      "descripcion": "Identificador técnico del número de WhatsApp Business; no es el teléfono."
+    },
+    "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID": {
+      "valor": "",
+      "descripcion": "ID de la Data Table compartida de candados WhatsApp, con columnas clave y ejecucion."
+    },
+    "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID": {
+      "valor": "",
+      "descripcion": "ID de la Data Table compartida de contexto WhatsApp, con columnas wamid y datos."
+    },
+    "CONFIGURE_OWNER_NAME": {
+      "valor": "",
+      "descripcion": "Nombre del titular tal como aparece en sus comprobantes; completar solo en tu copia privada."
+    },
+    "CONFIGURE_OWNER_MASKED_NAME": {
+      "valor": "",
+      "descripcion": "Nombre enmascarado del titular si aparece en comprobantes."
+    },
+    "CONFIGURE_OWNER_PAYMENT_ALIAS": {
+      "valor": "",
+      "descripcion": "Llave o alias de pago del titular, si corresponde."
+    },
+    "CONFIGURE_OWNER_MATCH": {
+      "valor": "",
+      "descripcion": "Patrón de expresión regular para reconocer al titular en extractos. Escapar caracteres especiales y conservar la sintaxis /patrón/i del nodo Ejecutar."
+    },
+    "CONFIGURE_EXTRACTS_FOLDER_ID": {
+      "valor": "",
+      "descripcion": "ID de tu carpeta de Drive para extractos procesados; nodo Mover a Extractos."
+    }
+  },
+  "credenciales": [
+    {
+      "tipo_n8n": "googleDriveOAuth2Api",
+      "marcador_id": "CONFIGURE_googleDriveOAuth2Api",
+      "marcador_nombre": "googleDriveOAuth2Api (configurar)"
+    },
+    {
+      "tipo_n8n": "googlePalmApi",
+      "marcador_id": "CONFIGURE_googlePalmApi",
+      "marcador_nombre": "googlePalmApi (configurar)"
+    },
+    {
+      "tipo_n8n": "googleSheetsOAuth2Api",
+      "marcador_id": "CONFIGURE_googleSheetsOAuth2Api",
+      "marcador_nombre": "googleSheetsOAuth2Api (configurar)"
+    },
+    {
+      "tipo_n8n": "httpHeaderAuth",
+      "marcador_id": "CONFIGURE_httpHeaderAuth",
+      "marcador_nombre": "httpHeaderAuth (configurar)"
+    },
+    {
+      "tipo_n8n": "telegramApi",
+      "marcador_id": "CONFIGURE_telegramApi",
+      "marcador_nombre": "telegramApi (configurar)"
+    },
+    {
+      "tipo_n8n": "whatsAppApi",
+      "marcador_id": "CONFIGURE_whatsAppApi",
+      "marcador_nombre": "whatsAppApi (configurar)"
+    }
+  ],
+  "flujos": [
+    {
+      "archivo": "flujos/finanzas/finanzas-bot-v25.json",
+      "nodos": 132,
+      "configuracion_por_nodo": [
+        {
+          "nodo": "Telegram Trigger",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "¿Autorizado?",
+          "marcadores": [
+            "123456789"
+          ]
+        },
+        {
+          "nodo": "Registrar intruso",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Config",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_WHATSAPP_PHONE_NUMBER_ID"
+          ]
+        },
+        {
+          "nodo": "Leer hoja",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Escribiendo",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Contexto",
+          "marcadores": [
+            "CONFIGURE_OWNER_MASKED_NAME",
+            "CONFIGURE_OWNER_NAME",
+            "CONFIGURE_OWNER_PAYMENT_ALIAS"
+          ]
+        },
+        {
+          "nodo": "Contestar botón",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Editar botones",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Marcar respondida",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "IA texto",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "IA texto respaldo",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "Descargar voz",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "IA audio",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "Groq transcribir",
+          "marcadores": [
+            "CONFIGURE_httpHeaderAuth"
+          ]
+        },
+        {
+          "nodo": "IA audio respaldo",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "Descargar archivo",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Subir a Drive",
+          "marcadores": [
+            "CONFIGURE_DOCUMENTS_FOLDER_ID",
+            "CONFIGURE_googleDriveOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Registrar documento",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "IA imagen",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "IA imagen respaldo",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "IA PDF",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "IA PDF respaldo",
+          "marcadores": [
+            "CONFIGURE_googlePalmApi"
+          ]
+        },
+        {
+          "nodo": "Guardar confirmación",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Preguntar 2",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Preguntar 4",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Preguntar 6",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Aviso sin botones",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Borrar movimientos",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Borrar cuotas",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Ejecutar",
+          "marcadores": [
+            "CONFIGURE_OWNER_MATCH"
+          ]
+        },
+        {
+          "nodo": "Actualizar documento",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Solicitudes",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID"
+          ]
+        },
+        {
+          "nodo": "Escribir hoja",
+          "marcadores": [
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Mover a Extractos",
+          "marcadores": [
+            "CONFIGURE_EXTRACTS_FOLDER_ID",
+            "CONFIGURE_googleDriveOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Responder",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Responder simple",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Cerrar registro",
+          "marcadores": [
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Enlazar mensaje",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Candado",
+          "marcadores": [
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "WA Preparar entrada",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_ALLOWED_NUMBER"
+          ]
+        },
+        {
+          "nodo": "WA Reservar entrada",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID"
+          ]
+        },
+        {
+          "nodo": "WA Reservar confirmación",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID"
+          ]
+        },
+        {
+          "nodo": "WA Metadatos voz",
+          "marcadores": [
+            "CONFIGURE_whatsAppApi"
+          ]
+        },
+        {
+          "nodo": "WA Descargar voz",
+          "marcadores": [
+            "CONFIGURE_whatsAppApi"
+          ]
+        },
+        {
+          "nodo": "WA Metadatos archivo",
+          "marcadores": [
+            "CONFIGURE_whatsAppApi"
+          ]
+        },
+        {
+          "nodo": "WA Descargar archivo",
+          "marcadores": [
+            "CONFIGURE_whatsAppApi"
+          ]
+        },
+        {
+          "nodo": "WA Preparar mensaje",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_ALLOWED_NUMBER"
+          ]
+        },
+        {
+          "nodo": "WA Enviar mensaje",
+          "marcadores": [
+            "CONFIGURE_whatsAppApi"
+          ]
+        },
+        {
+          "nodo": "WA Guardar contexto",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_CONTEXT_TABLE_ID"
+          ]
+        },
+        {
+          "nodo": "WA Enlazar pregunta",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "WA Leer reserva entrada",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID"
+          ]
+        },
+        {
+          "nodo": "WA Leer reserva confirmación",
+          "marcadores": [
+            "CONFIGURE_WHATSAPP_LOCKS_TABLE_ID"
+          ]
+        }
+      ],
+      "errorWorkflow": "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID"
+    },
+    {
+      "archivo": "flujos/finanzas/finanzas-programado-v7.json",
+      "nodos": 34,
+      "configuracion_por_nodo": [
+        {
+          "nodo": "Leer hoja",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Solicitudes",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID"
+          ]
+        },
+        {
+          "nodo": "Escribir hoja",
+          "marcadores": [
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Enviar con botones",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Enviar aviso",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Metadatos",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Copiar hoja",
+          "marcadores": [
+            "CONFIGURE_BACKUPS_FOLDER_ID",
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleDriveOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Buscar respaldos",
+          "marcadores": [
+            "CONFIGURE_BACKUPS_FOLDER_ID",
+            "CONFIGURE_googleDriveOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Borrar respaldo viejo",
+          "marcadores": [
+            "CONFIGURE_googleDriveOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Solicitudes R",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID"
+          ]
+        },
+        {
+          "nodo": "Escribir hoja R",
+          "marcadores": [
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Enviar resumen",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Enviar gráfica",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Enviar con opciones",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        }
+      ],
+      "errorWorkflow": "CONFIGURE_FINANCE_ERROR_WORKFLOW_ID"
+    },
+    {
+      "archivo": "flujos/finanzas/finanzas-errores-v1.json",
+      "nodos": 5,
+      "configuracion_por_nodo": [
+        {
+          "nodo": "Avisar error",
+          "marcadores": [
+            "123456789",
+            "CONFIGURE_telegramApi"
+          ]
+        },
+        {
+          "nodo": "Buscar en log",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        },
+        {
+          "nodo": "Marcar error",
+          "marcadores": [
+            "CONFIGURE_FINANCE_SHEET_ID",
+            "CONFIGURE_googleSheetsOAuth2Api"
+          ]
+        }
+      ],
+      "errorWorkflow": null
+    }
+  ]
+}

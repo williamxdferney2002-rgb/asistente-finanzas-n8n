@@ -1,0 +1,3326 @@
+{
+  "name": "Asistente - Reloj v6.1",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2576,
+        480
+      ],
+      "id": "7b00e71c-5859-5e3a-85a7-b77da970997b",
+      "name": "Cada 5 minutos"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Recordatorios",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2336,
+        480
+      ],
+      "id": "d1b0990b-3c0f-57fb-8dd7-0113d5603d68",
+      "name": "Leer recordatorios",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "chatId": "123456789",
+        "text": "={{ String($json.textoTelegram) /* texto escapado: .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') en Formato Telegram */ }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        672
+      ],
+      "id": "5cb613d5-b993-5317-9b47-f3107f130aaa",
+      "name": "Enviar aviso",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "webhookId": "c3b76e54-be1e-51f1-8e48-af5e29374e88",
+      "credentials": {
+        "telegramApi": {
+          "id": "CONFIGURE_telegramApi",
+          "name": "telegramApi (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Recordatorios",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json['ID'] }}",
+            "Estado": "={{ $json['Estado'] }}",
+            "Fecha evento": "={{ $json['Fecha evento'] }}",
+            "Próximo aviso": "={{ $json['Próximo aviso'] }}",
+            "ID mensaje aviso": "={{ $json['ID mensaje aviso'] }}",
+            "Modificado": "={{ $json['Modificado'] }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mensaje",
+              "displayName": "Mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha evento",
+              "displayName": "Fecha evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Repetir",
+              "displayName": "Repetir",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Antelación (min)",
+              "displayName": "Antelación (min)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Próximo aviso",
+              "displayName": "Próximo aviso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID pendiente",
+              "displayName": "ID pendiente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID Calendar",
+              "displayName": "ID Calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Sync",
+              "displayName": "Sync",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID mensaje aviso",
+              "displayName": "ID mensaje aviso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        496,
+        480
+      ],
+      "id": "52e19a34-9cc5-59c4-bc45-9e5ee33344e0",
+      "name": "Actualizar recordatorio",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2576,
+        864
+      ],
+      "id": "db23e4e5-bae4-53dd-9949-a3e0b43322ab",
+      "name": "Cada 10 minutos"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pendientes",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2336,
+        864
+      ],
+      "id": "920d8bbf-c06c-5cfa-bccf-9771db7456ed",
+      "name": "Leer pendientes S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Recordatorios",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2112,
+        864
+      ],
+      "id": "77bade7c-7fe6-5c60-8bac-53cd40b17283",
+      "name": "Leer recordatorios S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/calendar/v3/calendars/CONFIGURE_ASSISTANT_CALENDAR_ID/events",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "showDeleted",
+              "value": "true"
+            },
+            {
+              "name": "maxResults",
+              "value": "250"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  {
+                    "type": "qs",
+                    "name": "pageToken",
+                    "value": "={{ $response.body.nextPageToken }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ !$response.body.nextPageToken }}",
+              "limitPagesFetched": false,
+              "requestInterval": 200
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1872,
+        864
+      ],
+      "id": "f5250283-210d-5265-ae15-aecc9631307c",
+      "name": "Cambios calendario",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CONFIGURE_googleCalendarOAuth2Api",
+          "name": "googleCalendarOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://tasks.googleapis.com/tasks/v1/lists/@default/tasks",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "showCompleted",
+              "value": "true"
+            },
+            {
+              "name": "showDeleted",
+              "value": "true"
+            },
+            {
+              "name": "showHidden",
+              "value": "true"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  {
+                    "type": "qs",
+                    "name": "pageToken",
+                    "value": "={{ $response.body.nextPageToken }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ !$response.body.nextPageToken }}",
+              "limitPagesFetched": false,
+              "requestInterval": 200
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1648,
+        864
+      ],
+      "id": "0e0bbe84-f571-54cb-a02a-55095688ae8b",
+      "name": "Cambios tareas",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Compara lo que cambió en Google Calendar y Google Tasks con la hoja (solo lo que creó el bot)\nconst tz = 'America/Bogota', F = 'yyyy-MM-dd HH:mm';\nconst ahora = DateTime.now().setZone(tz), ahoraTxt = ahora.toFormat(F);\nconst filas = n => $(n).all().map(i => i.json).filter(r => r && r.ID);\nconst pend = filas('Leer pendientes S'), recs = filas('Leer recordatorios S');\nconst cal = $('Cambios calendario').all().flatMap(i => i.json.items || []);\nconst tareas = $('Cambios tareas').all().flatMap(i => i.json.items || []);\nconst updP = {}, updR = {}, borrar = new Set(), msgs = [];\nconst setP = (id, o) => { updP[id] = { ...(updP[id] || { ID: id }), ...o, Modificado: ahoraTxt }; };\nconst setR = (id, o) => { updR[id] = { ...(updR[id] || { ID: id }), ...o, Modificado: ahoraTxt }; };\nconst P = 'yyyy-MM-dd H:mm';\nconst aF = s => DateTime.fromFormat(String(s || '').trim(), P, { zone: tz });\nconst limpiar = s => String(s || '').replace(/^(⏰|📌)\\s*/u, '').trim();\nconst cancelarAvisosDe = idp => recs.filter(r => String(r['ID pendiente']) === String(idp) && r.Estado === 'Activo').forEach(r => setR(r.ID, { Estado: 'Cancelado' }));\n\nfor (const e of (cal || [])) {\n  const filasEv = recs.filter(r => r['ID Calendar'] && r['ID Calendar'] === e.id);\n  const p = pend.find(x => x['ID Calendar'] && x['ID Calendar'] === e.id && x.Estado === 'Pendiente');\n  if (!filasEv.length && !p) continue;\n  if (e.status === 'cancelled') {\n    const activas = filasEv.filter(r => r.Estado === 'Activo');\n    if (p) {\n      setP(p.ID, { 'Fecha límite': '', 'ID Calendar': '' }); cancelarAvisosDe(p.ID);\n      msgs.push(`📌 Borraste en Calendar la fecha límite de \"${p.Pendiente}\". Sigue en tus pendientes, sin fecha ni avisos.`);\n    } else if (activas.length) {\n      activas.forEach(r => setR(r.ID, { Estado: 'Cancelado', Sync: 'Borrado en Calendar' }));\n      msgs.push(`🗑️ Vi que borraste \"${activas[0].Mensaje}\" en Calendar; ya no te lo recuerdo.`);\n    }\n    continue;\n  }\n  if (e.recurrence) continue; // en los repetitivos solo se sincroniza el borrado\n  const ini = e.start?.dateTime ? DateTime.fromISO(e.start.dateTime).setZone(tz) : (e.start?.date ? DateTime.fromISO(e.start.date, { zone: tz }).set({ hour: 9 }) : null);\n  if (!ini || !ini.isValid) continue;\n  const nuevo = ini.toFormat(F), titulo = limpiar(e.summary);\n  const igual = s => { const d = aF(s); return d.isValid && d.toFormat(F) === nuevo; };\n  let cambio = false;\n  for (const r of filasEv) {\n    if (r.Estado === 'Cancelado') continue;\n    const o = {};\n    if (!igual(r['Fecha evento'])) {\n      const av = ini.minus({ minutes: Number(r['Antelación (min)']) || 0 });\n      o['Fecha evento'] = nuevo; o['Próximo aviso'] = av.toFormat(F);\n      if (av > ahora) o.Estado = 'Activo';\n    }\n    if (titulo && titulo !== r.Mensaje) o.Mensaje = titulo;\n    if (Object.keys(o).length) { setR(r.ID, o); cambio = true; }\n  }\n  if (p) {\n    const o = {};\n    if (!igual(p['Fecha límite'])) o['Fecha límite'] = nuevo;\n    if (titulo && titulo !== p.Pendiente) o.Pendiente = titulo;\n    if (Object.keys(o).length) { setP(p.ID, o); cambio = true; }\n  }\n  if (cambio) msgs.push(`✏️ Vi que moviste \"${titulo}\" en Calendar; ya quedó para el ${ini.setLocale('es').toFormat(\"cccc d 'de' LLLL 'a las' h:mm a\")}.`);\n}\n\nconst importar=[],mover=[];\n// Solo se consulta @default: la lista de repetidas no entra por esta ruta.\nconst vistos=new Set(pend.map(p=>String(p['ID Task']||'')));\nfor(const t of tareas||[]){\n if(!t.id)continue;\n let p=pend.find(x=>x['ID Task']===t.id);\n const fecha=t.due?String(t.due).slice(0,10):'';\n if(!p){\n  if(vistos.has(t.id)||t.deleted||t.status==='completed'||!String(t.title||'').trim())continue;\n  vistos.add(t.id);\n  importar.push({ID:'GT-'+t.id,Pendiente:t.title,Estado:'Pendiente','Fecha límite':fecha?fecha+' 18:00':'','ID Task':t.id,'ID Calendar':'',Creado:ahoraTxt,Completado:'',Sync:'Creada en Tasks',Modificado:ahoraTxt});\n  // La notificación se envía únicamente después de Guardar importadas.\n  continue;\n }\n if(t.deleted){\n  if(p.Estado==='Eliminado')continue;\n  setP(p.ID,{Estado:'Eliminado',Sync:'Borrado en Tasks','ID Calendar':''});cancelarAvisosDe(p.ID);\n  if(p['ID Calendar'])borrar.add(p['ID Calendar']);\n  msgs.push(`🗑️ Vi que borraste \"${p.Pendiente}\" en Google Tasks; lo quité de tus pendientes.`);\n  continue;\n }\n if(t.status==='completed'){\n  if(p.Estado==='Hecho'||p.Estado==='Eliminado')continue;\n  setP(p.ID,{Estado:'Hecho',Completado:t.completed?DateTime.fromISO(t.completed).setZone(tz).toFormat(F):ahoraTxt,'ID Calendar':''});cancelarAvisosDe(p.ID);\n  if(p['ID Calendar'])borrar.add(p['ID Calendar']);\n  msgs.push(`✔️ Vi que tachaste \"${p.Pendiente}\" en Google Tasks.`);continue;\n }\n if(p.Estado==='Eliminado')continue;\n // Comparar marcas de modificación evita revertir un cambio reciente de Calendar/Telegram.\n const taskUpdated=DateTime.fromISO(String(t.updated||'')).setZone(tz),sheetUpdated=aF(p.Modificado);\n const desdeTasks=!sheetUpdated.isValid||!taskUpdated.isValid||taskUpdated>sheetUpdated;\n const cambioCal=(cal||[]).find(e=>e.id===p['ID Calendar']);\n const calUpdated=cambioCal?DateTime.fromISO(String(cambioCal.updated||'')):null;\n if(calUpdated?.isValid&&taskUpdated.isValid&&calUpdated>taskUpdated)continue;\n const cambios={};\n if(p.Estado==='Hecho'&&desdeTasks){cambios.Estado='Pendiente';cambios.Completado='';msgs.push(`↩️ Destachaste \"${p.Pendiente}\" en Google Tasks; vuelve a Pendiente.`);}\n if(desdeTasks){\n  if(String(t.title||'').trim()&&t.title!==p.Pendiente)cambios.Pendiente=t.title;\n  const fechaHoja=String(p['Fecha límite']||'').slice(0,10);\n  if(fecha!==fechaHoja)cambios['Fecha límite']=fecha?fecha+' '+(aF(p['Fecha límite']).isValid?aF(p['Fecha límite']).toFormat('HH:mm'):'18:00'):'';\n }\n if(!Object.keys(cambios).length)continue;\n // Tasks guarda solo el día, conserva la hora de la hoja cuando existe.\n if('Pendiente'in cambios||'Fecha límite'in cambios){\n  msgs.push(`✏️ Cambió en Google Tasks: ${cambios.Pendiente||p.Pendiente}.`);\n  const nuevaFecha=cambios['Fecha límite']??p['Fecha límite'];\n  if(p['ID Calendar']){\n   if(!nuevaFecha){borrar.add(p['ID Calendar']);cambios['ID Calendar']='';cancelarAvisosDe(p.ID);}\n   else {const ini=aF(nuevaFecha); if(ini.isValid)mover.push({id:p['ID Calendar'],evento:{summary:'📌 '+(cambios.Pendiente||p.Pendiente),start:{dateTime:ini.toISO(),timeZone:tz},end:{dateTime:ini.plus({minutes:30}).toISO(),timeZone:tz}}});}\n  }\n  for(const r of recs.filter(r=>r['ID pendiente']===p.ID&&r.Estado==='Activo')){\n   const ini=aF(nuevaFecha);if(!ini.isValid)continue;\n   setR(r.ID,{Mensaje:cambios.Pendiente||p.Pendiente,'Fecha evento':nuevaFecha,'Próximo aviso':ini.minus({minutes:Number(r['Antelación (min)'])||0}).toFormat(F)});\n  }\n }\n setP(p.ID,cambios);\n}\n\n// Reparación: pendientes que se quedaron sin tarea en Google Tasks\nconst reparar = pend.filter(p => p.Estado === 'Pendiente' && !p['ID Task'] && ['Procesando', 'Error'].includes(p.Sync) &&\n  ahora.diff(aF(p.Creado), 'minutes').minutes > 10)\n  .map(p => ({ ID: p.ID, tarea: { title: p.Pendiente, notes: 'Creado por el Asistente', ...(p['Fecha límite'] ? { due: String(p['Fecha límite']).slice(0, 10) + 'T00:00:00.000Z' } : {}) } }));\n\nreturn [{ json: { pend: Object.values(updP), rec: Object.values(updR), borrar: [...borrar], msgs, reparar, importar, mover } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1424,
+        864
+      ],
+      "id": "f888832e-9cc4-52fa-af81-8e6f74e5ec16",
+      "name": "Detectar cambios"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.pend.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        672
+      ],
+      "id": "30bcc549-5152-5201-bb60-1c7ebac75d61",
+      "name": "Pendientes a sincronizar"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pendientes",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pendiente",
+              "displayName": "Pendiente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha límite",
+              "displayName": "Fecha límite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Task",
+              "displayName": "ID Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Calendar",
+              "displayName": "ID Calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Completado",
+              "displayName": "Completado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sync",
+              "displayName": "Sync",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -960,
+        672
+      ],
+      "id": "95d5e99b-cb6d-5b9a-8df1-53eca1b2fc63",
+      "name": "Actualizar pendientes S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.rec.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        864
+      ],
+      "id": "f04aad0f-6fc9-5249-af46-3e333bbbadd8",
+      "name": "Recordatorios a sincronizar"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Recordatorios",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mensaje",
+              "displayName": "Mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha evento",
+              "displayName": "Fecha evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Repetir",
+              "displayName": "Repetir",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Antelación (min)",
+              "displayName": "Antelación (min)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Próximo aviso",
+              "displayName": "Próximo aviso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID pendiente",
+              "displayName": "ID pendiente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Calendar",
+              "displayName": "ID Calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sync",
+              "displayName": "Sync",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID mensaje aviso",
+              "displayName": "ID mensaje aviso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -960,
+        864
+      ],
+      "id": "e0edbcc8-1b9b-5ef0-935e-1bf619456708",
+      "name": "Actualizar recordatorios S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.borrar.map(id => ({ json: { id } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        1056
+      ],
+      "id": "0655cc78-a478-5ce4-b7b9-56d6cd2c3a6e",
+      "name": "Eventos a borrar S"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://www.googleapis.com/calendar/v3/calendars/CONFIGURE_ASSISTANT_CALENDAR_ID/events/{{ $json.id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -960,
+        1056
+      ],
+      "id": "20893520-c2ec-5b5f-9f36-fb6b904a07b7",
+      "name": "Borrar eventos S",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CONFIGURE_googleCalendarOAuth2Api",
+          "name": "googleCalendarOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const m = $input.first().json.msgs;\nreturn m.length ? [{ json: { texto: m.join('\\n\\n').replace(/(a\\. m\\.|p\\. m\\.)\\./g, '$1') } }] : [];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        1248
+      ],
+      "id": "98bcfb6f-32ad-52bd-a9f5-53616e13ca13",
+      "name": "Mensaje de cambios"
+    },
+    {
+      "parameters": {
+        "chatId": "123456789",
+        "text": "={{ String($json.textoTelegram) /* texto escapado: .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') en Formato Telegram */ }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -960,
+        1248
+      ],
+      "id": "e741b2d7-4325-5c66-a6b8-479049c180d7",
+      "name": "Avisar cambios",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "webhookId": "e5f3fc5a-a7f2-5e54-b289-583275e0c2da",
+      "credentials": {
+        "telegramApi": {
+          "id": "CONFIGURE_telegramApi",
+          "name": "telegramApi (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.reparar.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        1440
+      ],
+      "id": "8e57d3ca-b286-5f21-b117-44734e0ce533",
+      "name": "Pendientes a reparar"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://tasks.googleapis.com/tasks/v1/lists/@default/tasks",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.tarea) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -960,
+        1440
+      ],
+      "id": "9f4cffc0-c8ba-5522-b8a1-01135961b701",
+      "name": "Reintentar tarea",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const base = $('Pendientes a reparar').all();\nconst ahora = DateTime.now().setZone('America/Bogota').toFormat('yyyy-MM-dd HH:mm');\nreturn $input.all().map((it, i) => ({ json: { ID: base[i].json.ID, 'ID Task': it.json.id || '', Sync: it.json.id ? 'Completado' : 'Error', Modificado: ahora } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1440
+      ],
+      "id": "c7779356-f760-57b0-8524-4f5fa22e5b37",
+      "name": "Resultado reparación"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pendientes",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pendiente",
+              "displayName": "Pendiente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha límite",
+              "displayName": "Fecha límite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Task",
+              "displayName": "ID Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Calendar",
+              "displayName": "ID Calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Completado",
+              "displayName": "Completado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sync",
+              "displayName": "Sync",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -496,
+        1440
+      ],
+      "id": "0371e956-cdf2-5daa-8650-9e01514e1b40",
+      "name": "Guardar reparación",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "timeMin",
+              "value": "={{ $now.setZone('America/Bogota').startOf('day').toISO() }}"
+            },
+            {
+              "name": "timeMax",
+              "value": "={{ $now.setZone('America/Bogota').endOf('day').toISO() }}"
+            },
+            {
+              "name": "singleEvents",
+              "value": "true"
+            },
+            {
+              "name": "orderBy",
+              "value": "startTime"
+            },
+            {
+              "name": "timeZone",
+              "value": "America/Bogota"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -704,
+        800
+      ],
+      "id": "5ef8cb5a-1b72-5af6-be06-1e1316939784",
+      "name": "Eventos de hoy",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CONFIGURE_googleCalendarOAuth2Api",
+          "name": "googleCalendarOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const ahora=DateTime.now().setZone('America/Bogota'); const hoy=ahora.toISODate(); const st=$getWorkflowStaticData('global'); return [{json:{hoy,resumen:ahora.hour>=7 && st.resumen!==hoy}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2112,
+        480
+      ],
+      "id": "3b7cf1b3-45ff-517c-b767-7b27318ac210",
+      "name": "¿Qué toca?",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Habitos",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1648,
+        640
+      ],
+      "id": "36e67e04-2cf3-515b-ba35-73b5606c585d",
+      "name": "Leer hábitos A",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Registro habitos",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1424,
+        640
+      ],
+      "id": "45293145-e63f-5044-8c29-1ceaa21b03cc",
+      "name": "Leer registro A",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pendientes",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -944,
+        800
+      ],
+      "id": "a826dc58-475e-5734-9073-7222532d65a5",
+      "name": "Leer pendientes A",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Utilidades de tareas repetidas: idénticas en Entrada y Reloj.\nconst HZ='America/Bogota';\nconst LETRAS=['L','M','X','J','V','S','D'];\nconst normH=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9\\s]/g,' ').replace(/\\s+/g,' ').trim();\nconst diaHab=dt=>(dt||DateTime.now()).setZone(HZ).startOf('day');\nconst claveDia=d=>d.toFormat('yyyyMMdd');\nconst fechaRep=s=>{if(typeof s==='number')return DateTime.fromISO('1899-12-30',{zone:HZ}).plus({days:s}).startOf('day'); const x=String(s||'').trim(); return [DateTime.fromISO(x,{zone:HZ}),DateTime.fromFormat(x,'d/M/yyyy',{zone:HZ}),DateTime.fromFormat(x,'yyyy-MM-dd H:mm',{zone:HZ})].find(d=>d.isValid)||DateTime.invalid('fecha inválida');};\nconst diasDe=h=>{const s=String(h?.['Días']??h?.dias??'').toUpperCase(); if(!s||/TODOS|DIARIO/.test(s))return [1,2,3,4,5,6,7]; return [...new Set(s.split(/[^A-Z]+/).map(x=>LETRAS.indexOf(x)+1).filter(x=>x>0))];};\nconst inicioHab=h=>{const m=String(h?.ID||'').match(/^H(\\d{12})/); return m?DateTime.fromFormat(m[1],'yyMMddHHmmss',{zone:HZ}).startOf('day'):null;};\nconst vigente=(h,d)=>{const fin=h.Hasta?fechaRep(h.Hasta):null,ini=inicioHab(h); return (h.Estado||'Activo')==='Activo'&&diasDe(h).includes(d.weekday)&&(!ini||!ini.isValid||ini<=d)&&(!fin||(fin.isValid&&d<=fin.startOf('day')));};\nconst nombreHab=h=>`${h.Emoji||'🔁'} ${h['Hábito']}`;\n\nconst tz='America/Bogota', F='yyyy-MM-dd HH:mm', P='yyyy-MM-dd H:mm'; const ahora=DateTime.now().setZone(tz); const flags=$('¿Qué toca?').first().json; const recs=$('Leer recordatorios').all().map(i=>i.json).filter(r=>r.ID);\n// ---------- 1) Avisos vencidos ----------\nconst unidad = { diario: 'days', semanal: 'weeks', mensual: 'months', anual: 'years' };\nconst cuando = d => { const e = d.setLocale('es'); const dias = Math.round(e.startOf('day').diff(ahora.startOf('day'), 'days').days);\n  const dia = dias === 0 ? 'hoy' : dias === 1 ? 'mañana' : (dias > 1 && dias < 7) ? 'el ' + e.toFormat('cccc') : 'el ' + e.toFormat(\"cccc d 'de' LLLL\");\n  return `${dia} a la${e.hour % 12 === 1 ? '' : 's'} ${e.toFormat('h:mm a')}`; };\nconst falta = m => m % 1440 === 0 ? (m === 1440 ? 'falta 1 día' : `faltan ${m / 1440} días`) : m % 60 === 0 ? (m === 60 ? 'falta 1 hora' : `faltan ${m / 60} horas`) : `faltan ${m} minutos`;\nconst filas = [], lineas = {};\nfor (const r of recs.filter(r => r.Estado === 'Activo' && r['Próximo aviso'])) {\n  const aviso = DateTime.fromFormat(String(r['Próximo aviso']).trim(), P, { zone: tz });\n  if (!aviso.isValid || aviso > ahora) continue;\n  const min = Number(r['Antelación (min)']) || 0;\n  let ev = DateTime.fromFormat(String(r['Fecha evento']).trim(), P, { zone: tz });\n  const cu = ev.isValid ? cuando(ev) : r['Fecha evento'];\n  let texto = r['ID pendiente']\n    ? (min === 0 ? `📌 Ya es la hora de: ${r.Mensaje}` : `📌 \"${r.Mensaje}\" vence ${cu} (${falta(min)}).`)\n    : (min === 0 ? `⏰ ${r.Mensaje}` : `🔔 ${r.Mensaje}, ${cu} (${falta(min)}).`);\n  if (ahora.diff(aviso, 'minutes').minutes > 30) texto += ' (llegó tarde; el servidor estuvo ocupado)';\n  // Un mismo recordatorio con varios avisos vencidos (p. ej. tras una caída) sale una sola vez: el más cercano al evento\n  const clave = r['ID pendiente'] || r['ID Calendar'] || (r.Mensaje + '|' + r['Fecha evento']);\n  if (!lineas[clave] || min < lineas[clave].min) lineas[clave] = { min, texto, mensaje: String(r.Mensaje || '') };\n  let estado = 'Enviado', nuevoEv = String(r['Fecha evento']), nuevoAviso = String(r['Próximo aviso']);\n  const u = unidad[r.Repetir];\n  if (u && ev.isValid) {\n    let n, k = 0;\n    do { ev = ev.plus({ [u]: 1 }); n = ev.minus({ minutes: min }); k++; } while (n <= ahora && k < 2000);\n    estado = 'Activo'; nuevoEv = ev.toFormat(F); nuevoAviso = n.toFormat(F);\n  }\n  filas.push({ ID: r.ID, Estado: estado, 'Fecha evento': nuevoEv, 'Próximo aviso': nuevoAviso });\n}\nconst avisos = Object.values(lineas).map(x => x.texto);\nconst bloqueAvisos = avisos.length\n  ? avisos.join('\\n') + `\\n\\n↩️ Si quieres, respóndeme \"10 minutos más\" y te ${avisos.length > 1 ? 'los' : 'lo'} recuerdo después.` : '';\n\nconst salida=[];\nconst confirmacion=(accion,id,nombre)=>{\n const pc='PC-'+ahora.toFormat('yyMMddHHmmss')+'-'+String($execution.id).slice(0,20)+'-'+salida.length;\n const b={ID:pc,'Acción':accion,Datos:JSON.stringify({accion,id,confirmado:true}),Pregunta:'Marcar como hecha: '+nombre,Estado:'Pendiente',Respuesta:'','Fecha respuesta':'',Expira:ahora.endOf('day').toFormat(F),Creado:ahora.toFormat(F)};\n const si='a:pc:'+pc+':si',no='a:pc:'+pc+':no';\n if(Buffer.byteLength(si,'utf8')>64||Buffer.byteLength(no,'utf8')>64)throw new Error('Callback demasiado largo');\n return {texto:nombre,cb_si:si,cb_no:no,confirmacion:b};\n};\nif(flags.resumen){\n const eventos=$('Eventos de hoy').all().flatMap(i=>i.json.items||[]).filter(e=>e.status!=='cancelled');\n const lineas=eventos.map(e=>{const ini=e.start?.dateTime?DateTime.fromISO(e.start.dateTime).setZone(HZ):null;return '• '+(ini?.isValid?ini.toFormat('HH:mm'):'Todo el día')+' — '+(e.summary||'(sin título)');});\n const vistos=new Set(eventos.map(e=>e.id));\n for(const r of recs.filter(r=>!r['ID pendiente']&&['Activo','Enviado'].includes(r.Estado))){\n  const ev=DateTime.fromFormat(String(r['Fecha evento']||''),'yyyy-MM-dd H:mm',{zone:HZ});\n  const key=r['ID Calendar']||r.Mensaje+'|'+r['Fecha evento'];\n  if(!ev.isValid||!ev.hasSame(ahora,'day')||vistos.has(key))continue;\n  vistos.add(key);lineas.push('• '+ev.toFormat('HH:mm')+' — ⏰ '+r.Mensaje);\n }\n salida.push({texto:'☀️ Hoy te toca'+(lineas.length?'\\n📅 '+lineas.join('\\n'):'\\nNo hay eventos de calendario para hoy.'),filas:[],marcar:{resumen:true},hoy:flags.hoy});\n for(const p of $('Leer pendientes A').all().map(i=>i.json).filter(p=>p.ID&&p.Estado==='Pendiente'&&String(p['Fecha límite']||'').slice(0,10)===ahora.toISODate()))\n  salida.push({...confirmacion('completar_pendiente',p.ID,'📌 Hoy te toca: '+p.Pendiente),filas:[],hoy:flags.hoy});\n const registros=$('Leer registro A').all().map(i=>i.json);\n for(const h of $('Leer hábitos A').all().map(i=>i.json).filter(h=>h.ID&&vigente(h,diaHab(ahora)))){\n  const rid=`RH-${claveDia(diaHab(ahora))}-${h.ID}`;\n  if(registros.some(r=>r.ID===rid&&r.Estado&&r.Estado!=='Pendiente'))continue;\n  salida.push({...confirmacion('completar_repetida',h.ID,'🔁 Hoy te toca: '+h['Hábito']),filas:[],hoy:flags.hoy});\n }\n}\nif(bloqueAvisos)salida.push({texto:bloqueAvisos,filas,marcar:{},hoy:flags.hoy});\nreturn salida.map(json=>({json}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        480
+      ],
+      "id": "5e36d2e0-c119-5685-8c5f-a66e65437809",
+      "name": "Armar avisos",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "chatId": "123456789",
+        "text": "={{ String($json.textoTelegram) /* texto escapado: .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') en Formato Telegram */ }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Hecho",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.cb_si }}"
+                    }
+                  },
+                  {
+                    "text": "❌ Cancelar",
+                    "additionalFields": {
+                      "callback_data": "={{ $json.cb_no }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        16,
+        480
+      ],
+      "id": "fc74b796-c47a-5572-a763-411d35f99c76",
+      "name": "Enviar avisos 2b",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "webhookId": "e7187051-80b2-530b-a489-b523e9f22618",
+      "credentials": {
+        "telegramApi": {
+          "id": "CONFIGURE_telegramApi",
+          "name": "telegramApi (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const base=$('Armar avisos').all().map(i=>i.json),st=$getWorkflowStaticData('global'),out=[];\nfor(const it of $input.all()){\n const r=it.json,txt=String(r.text||r.result?.text||'').replace(/\\u2063/g,'');\n const b=base.find(b=>String(b.texto).slice(0,3900)===txt);\n if(!b)continue;\n if(b.marcar?.resumen)st.resumen=b.hoy;\n const mid=r.message_id||r.result?.message_id||'';\n for(const f of b.filas||[])out.push({json:{...f,'ID mensaje aviso':String(mid),Modificado:DateTime.now().setZone('America/Bogota').toFormat('yyyy-MM-dd HH:mm')}});\n}\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        480
+      ],
+      "id": "2bdcd108-5f14-5c1b-9972-4061d22d6712",
+      "name": "Tras enviar"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Habitos",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2336,
+        2320
+      ],
+      "id": "11667e0b-a146-59cf-919e-849e5f7acdf5",
+      "name": "Leer hábitos S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Registro habitos",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2112,
+        2320
+      ],
+      "id": "7f4ca4ca-1da8-5d10-983f-0fd9c630a1a6",
+      "name": "Leer registro S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://tasks.googleapis.com/tasks/v1/users/@me/lists",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  {
+                    "type": "qs",
+                    "name": "pageToken",
+                    "value": "={{ $response.body.nextPageToken }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ !$response.body.nextPageToken }}",
+              "limitPagesFetched": false,
+              "requestInterval": 200
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1872,
+        2320
+      ],
+      "id": "93d0d355-5abb-5b43-a00d-bb7bdda9e60e",
+      "name": "Listas de tareas",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Utilidades de tareas repetidas: idénticas en Entrada y Reloj.\nconst HZ='America/Bogota';\nconst LETRAS=['L','M','X','J','V','S','D'];\nconst normH=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9\\s]/g,' ').replace(/\\s+/g,' ').trim();\nconst diaHab=dt=>(dt||DateTime.now()).setZone(HZ).startOf('day');\nconst claveDia=d=>d.toFormat('yyyyMMdd');\nconst fechaRep=s=>{if(typeof s==='number')return DateTime.fromISO('1899-12-30',{zone:HZ}).plus({days:s}).startOf('day'); const x=String(s||'').trim(); return [DateTime.fromISO(x,{zone:HZ}),DateTime.fromFormat(x,'d/M/yyyy',{zone:HZ}),DateTime.fromFormat(x,'yyyy-MM-dd H:mm',{zone:HZ})].find(d=>d.isValid)||DateTime.invalid('fecha inválida');};\nconst diasDe=h=>{const s=String(h?.['Días']??h?.dias??'').toUpperCase(); if(!s||/TODOS|DIARIO/.test(s))return [1,2,3,4,5,6,7]; return [...new Set(s.split(/[^A-Z]+/).map(x=>LETRAS.indexOf(x)+1).filter(x=>x>0))];};\nconst inicioHab=h=>{const m=String(h?.ID||'').match(/^H(\\d{12})/); return m?DateTime.fromFormat(m[1],'yyMMddHHmmss',{zone:HZ}).startOf('day'):null;};\nconst vigente=(h,d)=>{const fin=h.Hasta?fechaRep(h.Hasta):null,ini=inicioHab(h); return (h.Estado||'Activo')==='Activo'&&diasDe(h).includes(d.weekday)&&(!ini||!ini.isValid||ini<=d)&&(!fin||(fin.isValid&&d<=fin.startOf('day')));};\nconst nombreHab=h=>`${h.Emoji||'🔁'} ${h['Hábito']}`;\n\nconst H=$('Leer hábitos S').all().map(i=>i.json).filter(r=>r.ID);\nconst R=$('Leer registro S').all().map(i=>i.json).filter(r=>r.ID);\nconst paginas=$('Listas de tareas').all();\nif(!paginas.some(i=>Array.isArray(i.json.items)))return [];\nconst listas=paginas.flatMap(i=>i.json.items||[]);\nconst l=listas.find(x=>normH(x.title)==='habitos')||listas.find(x=>normH(x.title)==='repetidas');\n// Una lista existente se inspecciona también sin filas para limpiar marcas huérfanas.\nif(!l&&!H.length&&!R.length)return [];\nreturn [{json:{id:l?l.id:null,crear:!l}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1648,
+        2320
+      ],
+      "id": "b35b6479-181c-51d5-9b9f-616a5edd4fe4",
+      "name": "Buscar lista",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e3884ed4-0316-5dc3-99c9-07549b328179",
+              "leftValue": "={{ $json.crear }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1424,
+        2320
+      ],
+      "id": "e14e6c87-bf36-5a0d-b0a8-2250f28e9d30",
+      "name": "¿Crear lista?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://tasks.googleapis.com/tasks/v1/users/@me/lists",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ title: 'Hábitos' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1184,
+        2160
+      ],
+      "id": "6b71244e-d2bb-54bb-b73a-2d8457dee0a0",
+      "name": "Crear lista Hábitos",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://tasks.googleapis.com/tasks/v1/lists/' + encodeURIComponent($('Crear lista Hábitos').isExecuted ? $('Crear lista Hábitos').first().json.id : $('Buscar lista').first().json.id) + '/tasks' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "showCompleted",
+              "value": "true"
+            },
+            {
+              "name": "showDeleted",
+              "value": "true"
+            },
+            {
+              "name": "showHidden",
+              "value": "true"
+            },
+            {
+              "name": "maxResults",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  {
+                    "type": "qs",
+                    "name": "pageToken",
+                    "value": "={{ $response.body.nextPageToken }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ !$response.body.nextPageToken }}",
+              "limitPagesFetched": false,
+              "requestInterval": 200
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -944,
+        2320
+      ],
+      "id": "1d67ca71-c055-5072-b7ce-1ce3bd2f8d82",
+      "name": "Tareas de hábitos",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Utilidades de tareas repetidas: idénticas en Entrada y Reloj.\nconst HZ='America/Bogota';\nconst LETRAS=['L','M','X','J','V','S','D'];\nconst normH=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9\\s]/g,' ').replace(/\\s+/g,' ').trim();\nconst diaHab=dt=>(dt||DateTime.now()).setZone(HZ).startOf('day');\nconst claveDia=d=>d.toFormat('yyyyMMdd');\nconst fechaRep=s=>{if(typeof s==='number')return DateTime.fromISO('1899-12-30',{zone:HZ}).plus({days:s}).startOf('day'); const x=String(s||'').trim(); return [DateTime.fromISO(x,{zone:HZ}),DateTime.fromFormat(x,'d/M/yyyy',{zone:HZ}),DateTime.fromFormat(x,'yyyy-MM-dd H:mm',{zone:HZ})].find(d=>d.isValid)||DateTime.invalid('fecha inválida');};\nconst diasDe=h=>{const s=String(h?.['Días']??h?.dias??'').toUpperCase(); if(!s||/TODOS|DIARIO/.test(s))return [1,2,3,4,5,6,7]; return [...new Set(s.split(/[^A-Z]+/).map(x=>LETRAS.indexOf(x)+1).filter(x=>x>0))];};\nconst inicioHab=h=>{const m=String(h?.ID||'').match(/^H(\\d{12})/); return m?DateTime.fromFormat(m[1],'yyMMddHHmmss',{zone:HZ}).startOf('day'):null;};\nconst vigente=(h,d)=>{const fin=h.Hasta?fechaRep(h.Hasta):null,ini=inicioHab(h); return (h.Estado||'Activo')==='Activo'&&diasDe(h).includes(d.weekday)&&(!ini||!ini.isValid||ini<=d)&&(!fin||(fin.isValid&&d<=fin.startOf('day')));};\nconst nombreHab=h=>`${h.Emoji||'🔁'} ${h['Hábito']}`;\nconst ahora=DateTime.now().setZone(HZ),ahoraT=ahora.toFormat('yyyy-MM-dd HH:mm'),hoyH=diaHab(ahora),kh=claveDia(hoyH);\nconst H=$('Leer hábitos S').all().map(i=>i.json).filter(r=>r.ID&&r['Hábito']);\nconst R=$('Leer registro S').all().map(i=>({...i.json,Estado:i.json.Estado||'Pendiente'})).filter(r=>r.ID);\nconst listaId=$('Crear lista Hábitos').isExecuted?$('Crear lista Hábitos').first().json.id:$('Buscar lista').first().json.id;\nconst paginas=$('Tareas de hábitos').all().map(i=>i.json);\nconst ok=paginas.length&&paginas.every(p=>p.kind==='tasks#tasks');\nconst tasks=paginas.flatMap(p=>p.items||[]),porId=Object.fromEntries(tasks.map(t=>[t.id,t]));\nconst upd={},borrar=new Map(),completar=[],crear=[],terminar=[],recuperadas=new Set();\nconst setR=(r,c)=>upd[r.ID]={...r,...c,Modificado:ahoraT};\nfor(const h of H){const fin=h.Hasta?fechaRep(h.Hasta):null;if(fin?.isValid&&hoyH>fin.startOf('day')&&h.Estado!=='Terminada')terminar.push({ID:h.ID,Estado:'Terminada'});}\n// Solo marcas completas, nunca coincidencias de prefijo ni tareas ajenas.\nif(ok&&listaId)for(const t of tasks){\n if(t.deleted)continue;\n const m=String(t.notes||'').match(/(?:^|\\s)ASIS:(RH-(\\d{8})-([^\\s]+))(?=\\s|$)/);\n if(!m)continue;\n const [id,dia,hid]=m.slice(1),h=H.find(x=>x.ID===hid);\n const fecha=DateTime.fromFormat(dia,'yyyyMMdd',{zone:HZ});\n if(!fecha.isValid)continue;\n if(dia!==kh||!h||!vigente(h,hoyH)){borrar.set(t.id,{lista:listaId,id:t.id});continue;}\n let r=R.find(x=>x.ID===id);\n if(!r){\n  r={ID:id,'ID hábito':h.ID,'Hábito':h['Hábito'],Fecha:hoyH.toISODate(),Estado:t.status==='completed'?'Hecho':'Pendiente',Origen:'Google Tasks',Registrado:ahoraT,Modificado:ahoraT};\n  R.push(r);\n }\n if(!r['ID Task']){\n  Object.assign(r,{'ID Task':t.id,'ID lista':listaId});\n  setR(r,{});recuperadas.add(id);\n }else if(r['ID Task']!==t.id){borrar.set(t.id,{lista:listaId,id:t.id});}\n}\nfor(const r of R){\n const m=String(r.ID).match(/^RH-(\\d{8})-(.+)$/);if(!m)continue;\n const h=H.find(x=>x.ID===m[2]),tid=r['ID Task'],t=porId[tid],lista=r['ID lista']||listaId;\n const aplica=m[1]===kh&&h&&vigente(h,hoyH);\n if(!aplica){\n  if(r.Estado==='Pendiente')setR(r,{Estado:m[1]===kh?'Omitido':'Sin marcar'});\n  if(tid&&ok&&t&&!t.deleted)borrar.set(tid,{lista,id:tid});\n  continue;\n }\n if(!tid)continue;\n // Conservar una cancelación/omisión local al recuperar, aunque Tasks esté tachada.\n if(!['Hecho','Pendiente'].includes(r.Estado)){if(ok&&t&&!t.deleted)borrar.set(tid,{lista,id:tid});continue;}\n if(ok&&t&&!t.deleted&&t.status==='completed'&&r.Estado!=='Hecho')setR(r,{Estado:'Hecho',Origen:'Google Tasks'});\n else if(ok&&t?.deleted&&r.Estado==='Pendiente')setR(r,{Estado:'No hecho',Origen:'Google Tasks'});\n else if(r.Estado==='Hecho'&&ok&&t&&!t.deleted&&t.status!=='completed'){\n  const tu=DateTime.fromISO(String(t.updated||'')),rm=DateTime.fromFormat(String(r.Modificado||''),'yyyy-MM-dd H:mm',{zone:HZ});\n  if(!recuperadas.has(r.ID)&&tu.isValid&&rm.isValid&&tu>rm.plus({minutes:1}))setR(r,{Estado:'Pendiente',Origen:'Google Tasks'});\n  else completar.push({lista,id:tid});\n }\n}\nif(ok&&listaId)for(const h of H){\n if(!vigente(h,hoyH))continue;\n const id=`RH-${kh}-${h.ID}`,existente=R.find(r=>r.ID===id);\n const fila={ID:id,'ID hábito':h.ID,'Hábito':h['Hábito'],Fecha:hoyH.toISODate(),Estado:'Pendiente',Origen:'',Registrado:ahoraT,Modificado:ahoraT};\n if(existente){\n  if(existente['ID Task']||!['Hecho','Pendiente'].includes(existente.Estado))continue;\n  crear.push({lista:listaId,fila:{...existente},tarea:{title:nombreHab(h),notes:'ASIS:'+id,due:hoyH.toISODate()+'T00:00:00.000Z',...(existente.Estado==='Hecho'?{status:'completed'}:{})}});continue;\n }\n crear.push({lista:listaId,fila,tarea:{title:nombreHab(h),notes:'Tarea repetida del Asistente · ASIS:'+id,due:hoyH.toISODate()+'T00:00:00.000Z'}});\n}\nreturn [{json:{crear,upd:Object.values(upd),borrar:[...borrar.values()],completar,terminar}}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        2320
+      ],
+      "id": "973004d9-b77f-54f7-8fae-8fa36e60cb7c",
+      "name": "Sincronizar hábitos",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.crear.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        2016
+      ],
+      "id": "597984d2-999e-5144-abd4-0dcb4c9fec8b",
+      "name": "Crear H"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://tasks.googleapis.com/tasks/v1/lists/' + encodeURIComponent($json.lista) + '/tasks' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.tarea) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -224,
+        2016
+      ],
+      "id": "a6fcde74-1f56-57d6-b72a-f7af42ab129d",
+      "name": "Crear tarea H",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Empareja cada tarea creada con su fila; si Google falló, no se escribe (se reintenta en 10 minutos)\nconst base = $('Crear H').all();\nreturn $input.all().map((it, i) => ({ json: { ...base[i].json.fila, 'ID Task': it.json.id || '', 'ID lista': base[i].json.lista } }))\n  .filter(x => x.json['ID Task']);\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        2016
+      ],
+      "id": "d720c0e7-89fd-53a1-840c-165244ac4dbf",
+      "name": "Filas nuevas H"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Registro habitos",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json['ID'] }}",
+            "ID hábito": "={{ $json['ID hábito'] }}",
+            "Hábito": "={{ $json['Hábito'] }}",
+            "Fecha": "={{ $json['Fecha'] }}",
+            "Origen": "={{ $json['Origen'] }}",
+            "ID Task": "={{ $json['ID Task'] || '' }}",
+            "ID lista": "={{ $json['ID lista'] || '' }}",
+            "Registrado": "={{ $json['Registrado'] }}",
+            "Modificado": "={{ $json['Modificado'] }}",
+            "Estado": "={{ $json['Estado'] || '' }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID hábito",
+              "displayName": "ID hábito",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hábito",
+              "displayName": "Hábito",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen",
+              "displayName": "Origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Task",
+              "displayName": "ID Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID lista",
+              "displayName": "ID lista",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Registrado",
+              "displayName": "Registrado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        256,
+        2016
+      ],
+      "id": "b736968b-4bef-5876-91ca-cd9faf6dff29",
+      "name": "Guardar filas H",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.upd.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        2224
+      ],
+      "id": "36b67c11-7a0d-56cb-8fbc-fe477d890aa3",
+      "name": "Actualizar H"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Registro habitos",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json['ID'] }}",
+            "ID hábito": "={{ $json['ID hábito'] }}",
+            "Hábito": "={{ $json['Hábito'] }}",
+            "Fecha": "={{ $json['Fecha'] }}",
+            "Estado": "={{ $json['Estado'] || '' }}",
+            "Origen": "={{ $json['Origen'] }}",
+            "Registrado": "={{ $json['Registrado'] }}",
+            "Modificado": "={{ $json['Modificado'] }}",
+            "ID Task": "={{ $json['ID Task'] || '' }}",
+            "ID lista": "={{ $json['ID lista'] || '' }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID hábito",
+              "displayName": "ID hábito",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hábito",
+              "displayName": "Hábito",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen",
+              "displayName": "Origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Task",
+              "displayName": "ID Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID lista",
+              "displayName": "ID lista",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Registrado",
+              "displayName": "Registrado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -224,
+        2224
+      ],
+      "id": "68cd589e-02fb-58ee-8c3e-40cbd5e788c7",
+      "name": "Actualizar registro S",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.completar.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        2416
+      ],
+      "id": "c40aab54-4dbf-5c4d-9fc4-0b1a4d44fc27",
+      "name": "Completar H"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://tasks.googleapis.com/tasks/v1/lists/' + encodeURIComponent($json.lista) + '/tasks/' + encodeURIComponent($json.id) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ status: 'completed' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -224,
+        2416
+      ],
+      "id": "b875b2cc-5be0-581c-a338-3d981df28ffc",
+      "name": "Tachar tarea H",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.first().json.borrar.map(j => ({ json: j }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -464,
+        2624
+      ],
+      "id": "c0cd5009-a4ad-5ac3-a1ff-7533631eb6e6",
+      "name": "Borrar H"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "={{ 'https://tasks.googleapis.com/tasks/v1/lists/' + encodeURIComponent($json.lista) + '/tasks/' + encodeURIComponent($json.id) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleTasksOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -224,
+        2624
+      ],
+      "id": "921d791c-56ff-55fb-a818-79d6294f1716",
+      "name": "Borrar tarea H",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "CONFIGURE_googleTasksOAuth2Api",
+          "name": "googleTasksOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "220c40bf-17db-55f7-8efb-58e6a7d86d49",
+      "name": "Importar Tasks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3380
+      ],
+      "parameters": {
+        "jsCode": "return $input.first().json.importar.map(json=>({json}));"
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pendientes",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pendiente",
+              "displayName": "Pendiente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha límite",
+              "displayName": "Fecha límite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Task",
+              "displayName": "ID Task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID Calendar",
+              "displayName": "ID Calendar",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Completado",
+              "displayName": "Completado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sync",
+              "displayName": "Sync",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Modificado",
+              "displayName": "Modificado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -960,
+        672
+      ],
+      "id": "49cd44d1-248c-59d4-99f4-294cf04241ce",
+      "name": "Guardar importadas",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "id": "1067fc4f-70d4-5b44-94f6-ebca1129442b",
+      "name": "Aviso importadas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3500
+      ],
+      "parameters": {
+        "jsCode": "const filas=$('Importar Tasks').all().map(i=>i.json); return filas.length?[{json:{texto:filas.map(p=>'📥 Vi en Google Tasks: '+p.Pendiente).join('\\n')}}]:[];"
+      }
+    },
+    {
+      "id": "f93fb97a-1622-5615-8ac7-621a57b80f1a",
+      "name": "Eventos a mover",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3560
+      ],
+      "parameters": {
+        "jsCode": "return $input.first().json.mover.map(json=>({json}));"
+      }
+    },
+    {
+      "id": "968c468a-e679-58fb-90ba-e204b2f1b859",
+      "name": "Mover evento desde Tasks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1200,
+        3620
+      ],
+      "parameters": {
+        "url": "={{ 'https://www.googleapis.com/calendar/v3/calendars/CONFIGURE_ASSISTANT_CALENDAR_ID/events/' + encodeURIComponent($json.id) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleCalendarOAuth2Api",
+        "options": {},
+        "method": "PATCH",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.evento) }}"
+      },
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "CONFIGURE_googleCalendarOAuth2Api",
+          "name": "googleCalendarOAuth2Api (configurar)"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "7dbdbfac-76c7-59fc-aa82-ff9b595d94fd",
+      "name": "Series terminadas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3620
+      ],
+      "parameters": {
+        "jsCode": "return $input.first().json.terminar.map(json=>({json}));"
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Habitos",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json.ID }}",
+            "Estado": "Terminada",
+            "Modificado": "={{ $now.setZone('America/Bogota').toFormat('yyyy-MM-dd HH:mm') }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3120,
+        2448
+      ],
+      "id": "a607aaff-e99a-5522-b249-a895cf857151",
+      "name": "Terminar series",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "id": "d81ba006-d1a9-58bf-b50a-b1b09ebe3f15",
+      "name": "Confirmaciones avisos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3500
+      ],
+      "parameters": {
+        "jsCode": "return $input.all().filter(i=>i.json.confirmacion).map(i=>({json:i.json.confirmacion}));"
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_ASSISTANT_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Por confirmar",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json[\"ID\"] }}",
+            "Creado": "={{ $json[\"Creado\"] }}",
+            "Acción": "={{ $json[\"Acción\"] }}",
+            "Datos": "={{ $json[\"Datos\"] }}",
+            "Pregunta": "={{ $json[\"Pregunta\"] }}",
+            "Estado": "={{ $json[\"Estado\"] }}",
+            "Respuesta": "={{ $json[\"Respuesta\"] }}",
+            "Fecha respuesta": "={{ $json[\"Fecha respuesta\"] }}",
+            "Expira": "={{ $json[\"Expira\"] }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Creado",
+              "displayName": "Creado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Acción",
+              "displayName": "Acción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Datos",
+              "displayName": "Datos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pregunta",
+              "displayName": "Pregunta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Respuesta",
+              "displayName": "Respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha respuesta",
+              "displayName": "Fecha respuesta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Expira",
+              "displayName": "Expira",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4272,
+        3200
+      ],
+      "id": "057856c8-356c-5366-bb2f-5d231a6fa09b",
+      "name": "Guardar botones avisos",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    },
+    {
+      "id": "920e8b0a-ad52-56a4-9c03-ca1c85d686ee",
+      "name": "Recuperar avisos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3620
+      ],
+      "parameters": {
+        "jsCode": "return $('Armar avisos').all().filter(i=>i.json.confirmacion);"
+      }
+    },
+    {
+      "id": "b755fb37-1f62-578c-858c-3848ec6b61c2",
+      "name": "¿Aviso con botón?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1200,
+        3680
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ac14b979-85b7-5c95-9476-0a0c3ea49f7f",
+              "leftValue": "={{ !!$json.confirmacion }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "99ccfd24-cd9a-5fab-9bbc-d67f3d90716a",
+      "name": "Formato Telegram",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        3740
+      ],
+      "parameters": {
+        "jsCode": "// Única función de formato Telegram, compartida por envíos y ediciones.\nfunction formatoTelegram(texto){return String(texto??'').replace(/\\u2063/g,'').slice(0,3900).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'\\u2063';}\n\nreturn $input.all().map((it,i)=>{const $json=it.json; let texto=\"\", destino=\"\"; switch($prevNode.name){\ncase \"¿Aviso con botón?\": destino=\"Enviar aviso\"; texto=( $json.texto ); break;\ncase \"Mensaje de cambios\": destino=\"Avisar cambios\"; texto=( $json.texto ); break;\ncase \"Aviso importadas\": destino=\"Avisar cambios\"; texto=( $json.texto ); break;\ncase \"Recuperar avisos\": destino=\"Enviar avisos 2b\"; texto=( $json.texto ); break;\ndefault: throw new Error(\"Origen Telegram desconocido\");}\nreturn {json:{...$json,textoTelegram:formatoTelegram(texto),destinoTelegram:destino},pairedItem:{item:i}};});"
+      }
+    },
+    {
+      "id": "d3cbfb0e-f90a-5d6e-a6b0-0698a3341960",
+      "name": "Destino Telegram",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        3800
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1ca71f55-e1f7-54e4-89cb-26a56390c60c",
+                    "leftValue": "={{ $json.destinoTelegram === 'Enviar aviso' }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Enviar aviso"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "57d52211-4aaa-5023-aaaa-794f6b240e2a",
+                    "leftValue": "={{ $json.destinoTelegram === 'Avisar cambios' }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Avisar cambios"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "04e97252-bce9-56b4-bcaa-6ca57719a891",
+                    "leftValue": "={{ $json.destinoTelegram === 'Enviar avisos 2b' }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Enviar avisos 2b"
+            }
+          ]
+        },
+        "options": {}
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Cada 5 minutos": {
+      "main": [
+        [
+          {
+            "node": "Leer recordatorios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer recordatorios": {
+      "main": [
+        [
+          {
+            "node": "¿Qué toca?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar aviso": {
+      "main": [
+        [
+          {
+            "node": "Tras enviar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cada 10 minutos": {
+      "main": [
+        [
+          {
+            "node": "Leer pendientes S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer pendientes S": {
+      "main": [
+        [
+          {
+            "node": "Leer recordatorios S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer recordatorios S": {
+      "main": [
+        [
+          {
+            "node": "Cambios calendario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cambios calendario": {
+      "main": [
+        [
+          {
+            "node": "Cambios tareas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cambios tareas": {
+      "main": [
+        [
+          {
+            "node": "Detectar cambios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detectar cambios": {
+      "main": [
+        [
+          {
+            "node": "Pendientes a sincronizar",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Recordatorios a sincronizar",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Eventos a borrar S",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mensaje de cambios",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Pendientes a reparar",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Importar Tasks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Eventos a mover",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Leer hábitos S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pendientes a sincronizar": {
+      "main": [
+        [
+          {
+            "node": "Actualizar pendientes S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recordatorios a sincronizar": {
+      "main": [
+        [
+          {
+            "node": "Actualizar recordatorios S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eventos a borrar S": {
+      "main": [
+        [
+          {
+            "node": "Borrar eventos S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje de cambios": {
+      "main": [
+        [
+          {
+            "node": "Formato Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pendientes a reparar": {
+      "main": [
+        [
+          {
+            "node": "Reintentar tarea",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reintentar tarea": {
+      "main": [
+        [
+          {
+            "node": "Resultado reparación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resultado reparación": {
+      "main": [
+        [
+          {
+            "node": "Guardar reparación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eventos de hoy": {
+      "main": [
+        [
+          {
+            "node": "Armar avisos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Qué toca?": {
+      "main": [
+        [
+          {
+            "node": "Leer hábitos A",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer hábitos A": {
+      "main": [
+        [
+          {
+            "node": "Leer registro A",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer registro A": {
+      "main": [
+        [
+          {
+            "node": "Leer pendientes A",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer pendientes A": {
+      "main": [
+        [
+          {
+            "node": "Eventos de hoy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Armar avisos": {
+      "main": [
+        [
+          {
+            "node": "¿Aviso con botón?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar avisos 2b": {
+      "main": [
+        [
+          {
+            "node": "Tras enviar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tras enviar": {
+      "main": [
+        [
+          {
+            "node": "Actualizar recordatorio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer hábitos S": {
+      "main": [
+        [
+          {
+            "node": "Leer registro S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer registro S": {
+      "main": [
+        [
+          {
+            "node": "Listas de tareas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listas de tareas": {
+      "main": [
+        [
+          {
+            "node": "Buscar lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar lista": {
+      "main": [
+        [
+          {
+            "node": "¿Crear lista?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear lista Hábitos": {
+      "main": [
+        [
+          {
+            "node": "Tareas de hábitos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tareas de hábitos": {
+      "main": [
+        [
+          {
+            "node": "Sincronizar hábitos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear H": {
+      "main": [
+        [
+          {
+            "node": "Crear tarea H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear tarea H": {
+      "main": [
+        [
+          {
+            "node": "Filas nuevas H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filas nuevas H": {
+      "main": [
+        [
+          {
+            "node": "Guardar filas H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar H": {
+      "main": [
+        [
+          {
+            "node": "Actualizar registro S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Completar H": {
+      "main": [
+        [
+          {
+            "node": "Tachar tarea H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Borrar H": {
+      "main": [
+        [
+          {
+            "node": "Borrar tarea H",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Crear lista?": {
+      "main": [
+        [
+          {
+            "node": "Crear lista Hábitos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tareas de hábitos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sincronizar hábitos": {
+      "main": [
+        [
+          {
+            "node": "Crear H",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Actualizar H",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Completar H",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Borrar H",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Series terminadas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Importar Tasks": {
+      "main": [
+        [
+          {
+            "node": "Guardar importadas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar importadas": {
+      "main": [
+        [
+          {
+            "node": "Aviso importadas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aviso importadas": {
+      "main": [
+        [
+          {
+            "node": "Formato Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eventos a mover": {
+      "main": [
+        [
+          {
+            "node": "Mover evento desde Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Series terminadas": {
+      "main": [
+        [
+          {
+            "node": "Terminar series",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Aviso con botón?": {
+      "main": [
+        [
+          {
+            "node": "Confirmaciones avisos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Formato Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmaciones avisos": {
+      "main": [
+        [
+          {
+            "node": "Guardar botones avisos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar botones avisos": {
+      "main": [
+        [
+          {
+            "node": "Recuperar avisos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recuperar avisos": {
+      "main": [
+        [
+          {
+            "node": "Formato Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formato Telegram": {
+      "main": [
+        [
+          {
+            "node": "Destino Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Destino Telegram": {
+      "main": [
+        [
+          {
+            "node": "Enviar aviso",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Avisar cambios",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar avisos 2b",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timezone": "America/Bogota",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveManualExecutions": false,
+    "errorWorkflow": "CONFIGURE_ASSISTANT_ERROR_WORKFLOW_ID"
+  },
+  "tags": []
+}

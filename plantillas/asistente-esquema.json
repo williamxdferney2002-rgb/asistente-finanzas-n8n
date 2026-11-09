@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "description": "Encabezados deducidos de los exports públicos del Asistente; sin filas de datos.",
+  "timezone": "America/Bogota",
+  "sheets": {
+    "Operaciones": [
+      "ID",
+      "Clave origen",
+      "Creado",
+      "Actualizado",
+      "Tipo entrada",
+      "Acción",
+      "Estado",
+      "Execution ID",
+      "Mensaje",
+      "Respuesta",
+      "Error"
+    ],
+    "Por confirmar": [
+      "ID",
+      "Creado",
+      "Acción",
+      "Datos",
+      "Pregunta",
+      "Estado",
+      "Respuesta",
+      "Fecha respuesta",
+      "Expira"
+    ],
+    "Pendientes": [
+      "ID",
+      "Pendiente",
+      "Estado",
+      "Fecha límite",
+      "ID Task",
+      "ID Calendar",
+      "Creado",
+      "Completado",
+      "Sync",
+      "Modificado"
+    ],
+    "Recordatorios": [
+      "ID",
+      "Mensaje",
+      "Fecha evento",
+      "Repetir",
+      "Antelación (min)",
+      "Próximo aviso",
+      "Estado",
+      "ID pendiente",
+      "ID Calendar",
+      "Creado",
+      "Sync",
+      "ID mensaje aviso",
+      "Modificado"
+    ],
+    "Claves": [
+      "ID",
+      "Servicio",
+      "Usuario o correo",
+      "Contraseña",
+      "Notas",
+      "Actualizado"
+    ],
+    "Habitos": [
+      "ID",
+      "Hábito",
+      "Emoji",
+      "Días",
+      "Alias",
+      "Estado",
+      "Creado",
+      "Modificado",
+      "Hasta"
+    ],
+    "Registro habitos": [
+      "ID",
+      "ID hábito",
+      "Hábito",
+      "Fecha",
+      "Estado",
+      "Origen",
+      "Registrado",
+      "Modificado",
+      "ID Task",
+      "ID lista"
+    ]
+  }
+}

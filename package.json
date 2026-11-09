@@ -1,0 +1,12 @@
+{
+  "name": "n8n-personal-automation-checks",
+  "private": true,
+  "description": "Comprobaciones locales y simulación de nodos de automatizaciones n8n.",
+  "dependencies": {
+    "luxon": "^3.7.2"
+  },
+  "scripts": {
+    "check": "python -X utf8 scripts/validar_publicacion.py",
+    "test": "node scripts/probar.js"
+  }
+}

@@ -1,0 +1,35 @@
+# Configuración y datos privados generados después de descargar la copia
+.env
+.env.*
+!.env.example
+config/local.json
+config/*.local.json
+local/
+private/
+datos-reales/
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+token*.json
+
+# Ejecuciones y exports con información de usuario
+executions/
+*.xlsx
+*.xls
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.har
+*.zip
+
+# Herramientas locales
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+Thumbs.db
+.claude/settings.local.json

@@ -1,0 +1,333 @@
+{
+  "name": "Finanzas - Errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8694ae08-4ff3-5dea-8b33-bf11e3e63993",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "chatId": "123456789",
+        "text": "=⚠️ Falló \"{{ $json.execution.lastNodeExecuted || 'un nodo' }}\" en {{ $json.workflow.name }} (ejecución {{ $json.execution.id }}).\n{{ String(($json.execution.error && $json.execution.error.message) || '').slice(0, 300) }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "98dded5c-b715-566d-a808-b294ac95be8b",
+      "name": "Avisar error",
+      "credentials": {
+        "telegramApi": {
+          "id": "CONFIGURE_telegramApi",
+          "name": "telegramApi (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_FINANCE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Log Bot",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Run ID",
+              "lookupValue": "={{ $('Error Trigger').first().json.execution.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        0
+      ],
+      "id": "8b76e7f8-6d7e-523f-9ff2-604824463ebb",
+      "name": "Buscar en log",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4a06a179-7368-5097-9da2-63f81ab540d5",
+              "leftValue": "={{ !!$json['Run ID'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        704,
+        0
+      ],
+      "id": "07da58bd-83fa-53f7-be44-5fd75cb69d43",
+      "name": "¿Hay registro?"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "CONFIGURE_FINANCE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Log Bot",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Run ID": "={{ $json['Run ID'] }}",
+            "Resultado": "Error",
+            "Error": "={{ String(($('Error Trigger').first().json.execution.error || {}).message || '').slice(0, 300) }}"
+          },
+          "matchingColumns": [
+            "Run ID"
+          ],
+          "schema": [
+            {
+              "id": "FechaHora",
+              "displayName": "FechaHora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Run ID",
+              "displayName": "Run ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Origen",
+              "displayName": "Origen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID mensaje",
+              "displayName": "ID mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Acción",
+              "displayName": "Acción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tabla",
+              "displayName": "Tabla",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ID registro",
+              "displayName": "ID registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resultado",
+              "displayName": "Resultado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Error",
+              "displayName": "Error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Datos recibidos",
+              "displayName": "Datos recibidos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Valor anterior",
+              "displayName": "Valor anterior",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Valor nuevo",
+              "displayName": "Valor nuevo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        928,
+        0
+      ],
+      "id": "d53c55ad-f311-5b11-9ffa-4f5c38348d8b",
+      "name": "Marcar error",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CONFIGURE_googleSheetsOAuth2Api",
+          "name": "googleSheetsOAuth2Api (configurar)"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Avisar error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avisar error": {
+      "main": [
+        [
+          {
+            "node": "Buscar en log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar en log": {
+      "main": [
+        [
+          {
+            "node": "¿Hay registro?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Hay registro?": {
+      "main": [
+        [
+          {
+            "node": "Marcar error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timezone": "America/Bogota"
+  },
+  "nodeGroups": [],
+  "tags": []
+}
