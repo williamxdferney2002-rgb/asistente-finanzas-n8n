@@ -73,13 +73,17 @@ Detalle en [arquitectura](docs/arquitectura.md) y [modelo de datos](docs/modelo-
 El proyecto se construyó con un equipo de agentes de IA coordinado por una persona. El propietario define qué se quiere y aprueba los cambios importantes; los agentes diseñan, construyen y revisan.
 
 ```mermaid
-flowchart LR
-  U[Propietario] -->|pedido y aprobación| AR[Claude · arquitecto]
-  AR -->|brief| EJ[Ejecutor: Codex o subagente]
-  EJ -->|cambios + pruebas| AU[Auditor independiente]
-  AU -->|veredicto| AR
-  AU -.->|hallazgos, máx. 2 ciclos| EJ
-  AR -->|entrega verificada| U
+flowchart TD
+  U["Propietario"]
+  AR["Claude<br/>arquitecto"]
+  EJ["Ejecutor<br/>Codex o subagente"]
+  AU["Auditor<br/>independiente"]
+  U -->|"1. pedido"| AR
+  AR -->|"2. brief"| EJ
+  EJ -->|"3. cambios"| AU
+  AU -.->|"correcciones<br/>máx. 2"| EJ
+  AU -->|"4. veredicto"| AR
+  AR -->|"5. entrega"| U
 ```
 
 **Roles**
