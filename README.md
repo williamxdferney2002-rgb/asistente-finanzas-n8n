@@ -68,6 +68,48 @@ Detalle en [arquitectura](docs/arquitectura.md) y [modelo de datos](docs/modelo-
 - Herramientas propias de verificación: chequeo estructural de workflows, simulador de nodos Code y validador de publicación.
 - Anonimización completa para esta publicación (ver [privacidad](docs/privacidad.md)).
 
+## Desarrollo con agentes de IA: Claude y Codex
+
+El proyecto se construyó con un equipo de agentes de IA coordinado por una persona. El propietario define qué se quiere y aprueba los cambios importantes; los agentes diseñan, construyen y revisan.
+
+```mermaid
+flowchart LR
+  U[Propietario] -->|pedido y aprobación| AR[Claude · arquitecto]
+  AR -->|brief| EJ[Ejecutor: Codex o subagente]
+  EJ -->|cambios + pruebas| AU[Auditor independiente]
+  AU -->|veredicto| AR
+  AU -.->|hallazgos, máx. 2 ciclos| EJ
+  AR -->|entrega verificada| U
+```
+
+**Roles**
+
+| Rol | Quién | Qué hace |
+|---|---|---|
+| Arquitecto | Claude Code (sesión principal) | Entiende el pedido, clasifica la tarea, diseña la solución y redacta el brief. Revisa el veredicto antes de dar algo por terminado |
+| Ejecutor ligero | Subagente de Claude (modelo pequeño) | Cambios simples y acotados |
+| Escultor | Subagente de Claude o Codex | Construye los cambios complejos: nodos Code, JSON de flujos, tablero |
+| Auditor | Otro Codex o subagente de solo lectura, distinto del que construyó | Compara el cambio contra los criterios de aceptación, sin ver el historial de la conversación |
+
+**Cómo se clasificaba cada pedido**
+
+- **Trivial:** lo resuelve el arquitecto directamente.
+- **Simple:** ejecutor ligero; auditoría solo si hay riesgo.
+- **Compleja:** escultor y después auditor, siempre.
+- **Crítica** (dinero, saldos, varios módulos): plan aprobado por el propietario, luego escultor y auditor.
+
+**Contrato entre agentes.** El arquitecto entrega solo lo necesario, sin el historial: `TASK_ID`, `OBJECTIVE`, `SCOPE`, `RELEVANT_FILES`, `CONSTRAINTS`, `ACCEPTANCE_CRITERIA` y `VALIDATION_COMMANDS`. El ejecutor responde `STATUS / FILES_CHANGED / SUMMARY / TESTS / RISKS / BLOCKERS`, y el auditor `VERDICT / FINDINGS / EVIDENCE / REQUIRED_FIXES`. Si el auditor pide correcciones, los hallazgos vuelven al mismo ejecutor; tras dos ciclos sin aprobar, el bloqueo se presenta al propietario.
+
+**Reglas de seguridad del equipo**
+
+- Separar quien construye de quien revisa: el auditor nunca audita su propio trabajo.
+- Como máximo dos ejecutores en paralelo y en archivos distintos; el JSON del bot nunca se edita en paralelo.
+- Ningún agente hace push, despliega ni escribe en la hoja real; eso lo hace el propietario.
+- Cada tarea grande (WhatsApp, pruebas, tablero) se abre en una sesión propia con un brief autocontenido, para no arrastrar contexto y gastar menos tokens.
+- El modelo más costoso solo se usa con una razón concreta.
+
+**Herramientas de apoyo.** Skills de Claude Code para n8n (patrones, nodos Code, expresiones, errores, subflujos y autoalojamiento), Apps Script y diseño del tablero, más tres propias: `n8n-workflow-check` (chequeo y simulación de flujos, publicado en [scripts/](scripts/)), `auditar-entrega` (revisión del diff real antes de entregar) y `auditoria-proyecto` (auditoría completa bajo pedido). Ejemplo: el tablero v8 lo construyó Codex y lo auditó otro Codex, con Claude como arquitecto.
+
 ## Resultados
 
 Comprobaciones locales sobre esta copia, sin conectar servicios reales ([detalle](docs/validacion.md)):
@@ -86,7 +128,7 @@ Las limitaciones pendientes se documentan con honestidad en [estado y limitacion
 
 ## Habilidades aplicadas
 
-Automatización de procesos con n8n · JavaScript · Python · integración de APIs (Telegram, Google, WhatsApp, modelos de IA) · diseño de prompts y salidas estructuradas · modelado de datos contables · Google Apps Script · pruebas y validación automatizada · manejo de errores e idempotencia · seguridad y anonimización de datos · documentación técnica.
+Automatización de procesos con n8n · JavaScript · Python · integración de APIs (Telegram, Google, WhatsApp, modelos de IA) · diseño de prompts y salidas estructuradas · modelado de datos contables · Google Apps Script · pruebas y validación automatizada · manejo de errores e idempotencia · seguridad y anonimización de datos · documentación técnica · orquestación de agentes de IA (Claude Code y Codex) con roles, contratos y auditoría independiente.
 
 ## Estructura
 
